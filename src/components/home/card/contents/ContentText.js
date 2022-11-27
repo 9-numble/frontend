@@ -6,7 +6,7 @@ const TextArea = styled.div`
   text-overflow: ellipsis;
   font-family: "Pretendard";
   font-style: normal;
-  font-weight: 300;
+  font-weight: 400;
   font-size: 16px;
   line-height: 22px;
   color: #111111;
@@ -20,8 +20,8 @@ const MoreButton = styled.span`
   color: #999999;
   padding: 3px;
 `;
-function ContentText({ content_text }) {
-  const [limit] = useState(80);
+function ContentText({ content_text, type }) {
+  const [limit] = useState(78);
   const handleShortText = (str, limit) => {
     return {
       string: str.slice(0, limit),
@@ -29,21 +29,26 @@ function ContentText({ content_text }) {
     };
   };
 
-  return (
-    <TextArea>
-      {handleShortText(content_text, limit).string}
-      {handleShortText(content_text, limit).isShowMore && (
-        <>
-          <span>...</span>
-          <MoreButton>더 보기</MoreButton>
-        </>
-      )}
-    </TextArea>
-  );
+  if (type === "full") {
+    return content_text;
+  } else {
+    return (
+      <TextArea>
+        {handleShortText(content_text, limit).string}
+        {handleShortText(content_text, limit).isShowMore && (
+          <>
+            <span>...</span>
+            <MoreButton>더 보기</MoreButton>
+          </>
+        )}
+      </TextArea>
+    );
+  }
 }
 
 export default ContentText;
 
 ContentText.propTypes = {
   content_text: PropTypes.node,
+  type: PropTypes.node,
 };

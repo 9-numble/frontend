@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { BottomButton } from "../common";
 import { isJoinCompleted, joinInputsSelector } from "../../store";
-import { callJoinApi } from "../../api";
+import axios from "axios";
 import { joinButtonProps as defaultJoinButtonProps } from "../../constants";
 
 function JoinButton({ isDisabled, failToJoin }) {
@@ -20,13 +20,19 @@ function JoinButton({ isDisabled, failToJoin }) {
 
   const onClickJoinButton = async (e) => {
     e.preventDefault();
-    const response = await callJoinApi(payload);
-    if (response.status === 201) {
-      setIsCompleted(true);
-    } else if (response.status === 400) {
-      const message = response.data.message;
-      failToJoin(message);
-    }
+    const response = axios
+      .post("http://3.36.78.249/auth/sign-up", payload)
+      .then((res) => {
+        if (res.status !== 201) throw new Error("Request failed");
+        if (res.status === 201) {
+          setIsCompleted(true);
+        }
+      })
+      .catch((error) => {
+        const message = error;
+        failToJoin(message);
+      });
+    console.log(response);
   };
 
   return (

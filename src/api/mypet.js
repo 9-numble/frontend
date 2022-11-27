@@ -1,6 +1,5 @@
 import axios from "axios";
 import { BASE_URL } from "../constants";
-
 export const callRegisterPetApi = async (payload) => {
   try {
     const response = await axios.post(`${BASE_URL}/users/animals`, payload);

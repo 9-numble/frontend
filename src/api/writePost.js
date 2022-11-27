@@ -5,9 +5,9 @@ export const callRegisterPostApi = async (payload) => {
   try {
     const response = await axios({
       headers: {
-        "Content-Type": "multipart/form-data",
+        "Content-Type": "application/json",
       },
-      url: `${BASE_URL}/registerPost`,
+      url: `${BASE_URL}/board/add`,
       method: "POST",
       data: payload,
     });

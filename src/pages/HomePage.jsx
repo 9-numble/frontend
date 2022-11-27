@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { useRecoilState } from "recoil";
+import axios from "axios";
 import {
   FeedHeader,
   SearchBar,
@@ -25,6 +26,36 @@ const StyledHeader = styled.div`
 export function HomePage() {
   const [user, setUser] = useRecoilState(userSelector);
   const [isOpen, setIsOpen] = useState(false);
+  const [cardData, setCardData] = useState([]);
+  const [categoryParams, setCategoryParams] = useState("전체");
+  const getCategory = (category) => {
+    if (category === 0) {
+      setCategoryParams("전체");
+    } else if (category === 1) {
+      setCategoryParams("자유");
+    } else if (category === 2) {
+      setCategoryParams("반려질문");
+    } else if (category === 3) {
+      setCategoryParams("반려고수");
+    } else if (category === 4) {
+      setCategoryParams("장소후기");
+    } else if (category === 5) {
+      setCategoryParams("축하해요");
+    } else if (category === 6) {
+      setCategoryParams("반려구조대");
+    }
+    console.log(categoryParams);
+  };
+
+  const fetchCardData = async () => {
+    const APICategoryParams = encodeURIComponent(categoryParams);
+    const response = await axios.get(
+      `http://3.36.78.249/board/list?categoryType=${APICategoryParams}`
+    );
+
+    console.log(categoryParams);
+    setCardData(response.data);
+  };
 
   useEffect(() => {
     setIsOpen(user.first);
@@ -34,13 +65,16 @@ export function HomePage() {
     setUser({ ...user, first: false });
   }, []);
 
+  useEffect(() => {
+    fetchCardData();
+  }, [categoryParams]);
   return (
     <>
       <StyledHeader>
         <FeedHeader />
-        <SearchBar />
+        <SearchBar onCategory={getCategory} />
       </StyledHeader>
-      <Board />
+      <Board cardData={cardData} />
       <WritePostBtn />
       <Nav />
       <BottomModal

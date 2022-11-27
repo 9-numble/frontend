@@ -9,6 +9,9 @@ const Wrapper = styled.div`
   display: flex;
   align-items: center;
   height: 56px;
+  background-color: white;
+  border-bottom: 1px solid #e5e5ec;
+  padding: 0px 20px;
 `;
 
 const LeftButton = styled.span`
@@ -18,6 +21,7 @@ const LeftButton = styled.span`
 const RightButton = styled.span`
   position: absolute;
   right: 0;
+  padding-right: 20px;
 `;
 
 function PageHeader({ leftButtonType, pageTitle, rightButton }) {

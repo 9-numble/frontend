@@ -10,7 +10,7 @@ const Wrapper = styled.span`
   margin-right: 12px;
 `;
 const Icon = styled.img`
-  margin-right: 2px;
+  margin-right: 6px;
 `;
 function CommentBtn({ commentNumber }) {
   return (
