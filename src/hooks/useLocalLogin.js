@@ -26,7 +26,7 @@ const useLocalLogin = () => {
     setValidationMessage(errorMessage);
     if (!errorMessage) {
       const response = axios
-        .post("http://3.36.78.249/auth/sign-in", loginInputs)
+        .post("http://3.36.78.249:8081/auth/sign-in", loginInputs)
         .then((res) => {
           if (res.status === 400) {
             setErrorField({ email: true, password: true });

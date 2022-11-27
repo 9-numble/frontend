@@ -14,7 +14,7 @@ export const callHomeApi = async (payload) => {
 export const callLoginApi = async (payload) => {
   try {
     const response = await axios.post(
-      "http://3.36.78.249/auth/sign-in",
+      "http://3.36.78.249:8081//auth/sign-in",
       payload
     );
     console.log(payload);

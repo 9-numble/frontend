@@ -50,7 +50,7 @@ export function HomePage() {
   const fetchCardData = async () => {
     const APICategoryParams = encodeURIComponent(categoryParams);
     const response = await axios.get(
-      `http://3.36.78.249/board/list?categoryType=${APICategoryParams}`
+      `http://3.36.78.249:8081//board/list?categoryType=${APICategoryParams}`
     );
 
     console.log(categoryParams);

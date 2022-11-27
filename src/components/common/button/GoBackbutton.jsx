@@ -25,5 +25,4 @@ function GoBackButton() {
     />
   );
 }
-
 export default GoBackButton;

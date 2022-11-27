@@ -25,7 +25,7 @@ function ProfileBoard() {
   const [myComments, setMyCommentsData] = useState([]);
   const fetchProfileData = async () => {
     try {
-      const response = await axios.get("http://3.36.78.249/users/my-info");
+      const response = await axios.get("http://3.36.78.249:8081/users/my-info");
       setProfileData(response.data);
       console.log(response);
     } catch (error) {
@@ -34,7 +34,7 @@ function ProfileBoard() {
   };
   const fetchMyPostsData = async () => {
     try {
-      const response = await axios.get("http://3.36.78.249/board/user");
+      const response = await axios.get("http://3.36.78.249:8081/board/user");
       setMyPostsData(response.data);
       console.log(response);
     } catch (error) {
@@ -44,7 +44,7 @@ function ProfileBoard() {
   const fetchMyCommentsData = async () => {
     try {
       const response = await axios.get(
-        "http://3.36.78.249/comments/my-comments"
+        "http://3.36.78.249:8081/comments/my-comments"
       );
       setMyCommentsData(response.data);
     } catch (error) {
