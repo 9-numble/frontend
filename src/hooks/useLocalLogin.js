@@ -5,7 +5,7 @@ import {
   loginInputsSelector,
   loginValidationMessage,
 } from "../store";
-import { callLoginApi } from "../api";
+import axios from "axios";
 import { validateLoginInput } from "../util";
 import { validateErrorMessage } from "../constants";
 
@@ -24,15 +24,20 @@ const useLocalLogin = () => {
     const { errorField, errorMessage } = validateLoginInput(loginInputs);
     setErrorField(errorField);
     setValidationMessage(errorMessage);
-
     if (!errorMessage) {
-      const status = await callLoginApi(loginInputs);
-      if (status === 400) {
-        setErrorField({ email: true, password: true });
-        setValidationMessage(validateErrorMessage.loginFailed);
-      } else {
-        setIsAuthenticated(true);
-      }
+      const response = axios
+        .post("http://3.36.78.249/auth/sign-in", loginInputs)
+        .then((res) => {
+          if (res.status === 400) {
+            setErrorField({ email: true, password: true });
+            setValidationMessage(validateErrorMessage.loginFailed);
+            return res;
+          } else {
+            setIsAuthenticated(true);
+          }
+        });
+
+      return { response };
     }
   };
 

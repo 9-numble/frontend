@@ -13,9 +13,14 @@ export const callHomeApi = async (payload) => {
 
 export const callLoginApi = async (payload) => {
   try {
-    const response = await axios.post(`${BASE_URL}/auth/sign-in`, payload);
+    const response = await axios.post(
+      "http://3.36.78.249/auth/sign-in",
+      payload
+    );
+    console.log(payload);
+    console.log(response);
     if (response.status !== 200) throw new Error("Request failed");
-    return response.status;
+    return response;
   } catch (error) {
     console.log(error);
     return error.response.status;

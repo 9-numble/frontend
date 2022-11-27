@@ -10,26 +10,6 @@ export const handlers = [
     return res(ctx.status(302), ctx.cookie("SESSION", "abc-123"));
   }),
 
-  rest.get(`${BASE_URL}/users/static-info`, (req, res, ctx) => {
-    return res(
-      ctx.json({
-        email: "asd@naver.com",
-        address: {
-          addressName: "서울특별시 광진구",
-          regionDepth1: "서울특별시",
-          regionDepth2: "광진구",
-        },
-        nickname: "모찌",
-        hasPet: false,
-        first: true,
-      })
-    );
-  }),
-
-  rest.post(`${BASE_URL}/auth/sign-up`, (req, res) => {
-    return res;
-  }),
-
   rest.post(`${BASE_URL}/register-mytown`, async (req, res, ctx) => {
     const body = await req.json();
     const town = await body.town.split(" ");
