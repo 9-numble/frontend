@@ -14,7 +14,7 @@ const Wrapper = styled.div`
 function BookmarkBoard() {
   const [myBookmarks, setMyBookmarksData] = useState([]);
   const fetchMyBookmarksData = async () => {
-    const response = await axios.get("http://3.36.78.249/board/bookmark");
+    const response = await axios.get("http://3.36.78.249:8081//board/bookmark");
     setMyBookmarksData(response.data);
   };
 
