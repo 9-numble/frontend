@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { PageHeader } from "../components";
 import { Card, BlankComment, PostCommentBox, CommentBox } from "../components";
+import Menu from "../css/icon/Menu.svg";
 import styled from "styled-components";
 const sample = {
   id: 1,
@@ -134,7 +135,10 @@ function PostViewPage() {
 
   return (
     <Wrapper>
-      <PageHeader pageTitle="게시글" />
+      <PageHeader
+        pageTitle="게시글"
+        rightButton={<img src={Menu} alt="img" />}
+      />
       <Card key={postId} type={"full"} {...sample} />
       {noComment ? <BlankComment /> : <CommentBox comments={sample.comments} />}
       <PostCommentBox />

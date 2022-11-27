@@ -4,10 +4,10 @@ import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
 import styled, { useTheme } from "styled-components";
 import { tags } from "../../../../constants";
+import PropTypes from "prop-types";
 
 const TagBox = styled(Tabs)`
-  padding-left: 20px;
-
+  padding-left: 8px;
   &&.MuiTabs-root {
     min-height: 46px;
   }
@@ -33,12 +33,14 @@ const Tag = styled(Tab)`
   }
 `;
 
-export default function SearchBarCategory() {
+export default function SearchBarCategory(props) {
   const [value, setValue] = React.useState(0);
   const { colors } = useTheme();
 
   const handleClick = (event, newValue) => {
     setValue(newValue);
+    console.log(newValue);
+    props.onCategory(newValue);
   };
 
   return (
@@ -63,3 +65,7 @@ export default function SearchBarCategory() {
     </Box>
   );
 }
+
+SearchBarCategory.propTypes = {
+  onCategory: PropTypes.func,
+};

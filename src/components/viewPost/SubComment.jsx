@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
-import { UserInfoHeader } from "../../components";
+import { UserInfoHeaderSmall } from "../../components";
 const Wrapper = styled.div`
   height: 66px;
   margin-left: 36px;
@@ -19,7 +19,11 @@ const CommentText = styled.div`
 function SubComment({ author, village, content, createdDate }) {
   return (
     <Wrapper>
-      <UserInfoHeader author={author} village={village} time={createdDate} />
+      <UserInfoHeaderSmall
+        author={author}
+        village={village}
+        time={createdDate}
+      />
       <CommentText>{content}</CommentText>
     </Wrapper>
   );

@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import BookmarkCard from "./BookmarkCard";
+import axios from "axios";
 
 const Wrapper = styled.div`
   box-sizing: border-box;
@@ -10,10 +11,19 @@ const Wrapper = styled.div`
   padding-top: 4px;
 `;
 
-function BookmarkBoard({ cards }) {
+function BookmarkBoard() {
+  const [myBookmarks, setMyBookmarksData] = useState([]);
+  const fetchMyBookmarksData = async () => {
+    const response = await axios.get("http://3.36.78.249/board/bookmark");
+    setMyBookmarksData(response.data);
+  };
+
+  useEffect(() => {
+    fetchMyBookmarksData();
+  });
   return (
     <Wrapper>
-      {cards.map((it) => (
+      {myBookmarks.map((it) => (
         <BookmarkCard key={it.id} {...it} />
       ))}
     </Wrapper>

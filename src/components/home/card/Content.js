@@ -5,7 +5,15 @@ import PropTypes from "prop-types";
 import { ContentText, ContentImage } from "./contents";
 
 const Wrapper = styled.div`
-  margin: 16px 20px;
+  margin: 8px 20px;
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 140%;
+  /* or 22px */
+
+  color: #111111;
 `;
 
 function Content({ content, postId, type }) {

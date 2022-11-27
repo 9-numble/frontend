@@ -28,7 +28,7 @@ function JoinPage() {
     if (isCompleted) {
       const timeOut = setTimeout(() => {
         setIsCompleted(false);
-        navigate("../login");
+        navigate("../sign-in");
       }, 1000);
 
       return () => {

@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { UserProfile } from "../../components";
-import PropTypes from "prop-types";
 import ProfileTab from "./ProfileTab";
+import axios from "axios";
 
 const Wrapper = styled.div`
   box-sizing: border-box;
@@ -19,25 +19,56 @@ const PostWrapper = styled.div`
   margin-top: 8px;
 `;
 
-function ProfileBoard({ userProfile, userPosts, userComments }) {
+function ProfileBoard() {
+  const [profileData, setProfileData] = useState({});
+  const [myPosts, setMyPostsData] = useState([]);
+  const [myComments, setMyCommentsData] = useState([]);
+  const fetchProfileData = async () => {
+    try {
+      const response = await axios.get("http://3.36.78.249/users/my-info");
+      setProfileData(response.data);
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const fetchMyPostsData = async () => {
+    try {
+      const response = await axios.get("http://3.36.78.249/board/user");
+      setMyPostsData(response.data);
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const fetchMyCommentsData = async () => {
+    try {
+      const response = await axios.get(
+        "http://3.36.78.249/comments/my-comments"
+      );
+      setMyCommentsData(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    fetchProfileData();
+    fetchMyCommentsData();
+    fetchMyPostsData();
+  }, []);
+
   return (
     <Wrapper>
       <UserProfile
-        nickname={userProfile.nickname}
-        regionDepth2={userProfile.regionDepth2}
-        animals={userProfile.animals}
+        nickname={profileData.nickname}
+        regionDepth2={profileData.regionDepth2}
+        animals={profileData.animals}
       ></UserProfile>
       <PostWrapper>
-        <ProfileTab userPosts={userPosts} userComments={userComments} />
+        <ProfileTab userPosts={myPosts} userComments={myComments} />
       </PostWrapper>
     </Wrapper>
   );
 }
 
 export default ProfileBoard;
-
-ProfileBoard.propTypes = {
-  userProfile: PropTypes.object,
-  userPosts: PropTypes.array,
-  userComments: PropTypes.array,
-};

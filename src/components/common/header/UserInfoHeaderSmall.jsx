@@ -11,8 +11,8 @@ const CardHeaderInfo = styled.div`
   padding-left: 20px;
 `;
 const Photo = styled.span`
-  width: 36px;
-  height: 36px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
   background-color: black;
   margin-right: 8px;
@@ -35,12 +35,13 @@ const UserInfo = styled.span`
   font-family: "Pretendard";
   font-style: normal;
   font-weight: 400;
-  font-size: 12px;
+  font-size: 11px;
   line-height: 140%;
+  font-size: 11px;
   color: #767676;
 `;
 
-function UserInfoHeader({ author, village, time }) {
+function UserInfoHeaderSmall({ author, village, time }) {
   return (
     <CardHeaderInfo>
       <Photo></Photo>
@@ -54,9 +55,9 @@ function UserInfoHeader({ author, village, time }) {
   );
 }
 
-UserInfoHeader.propTypes = {
+UserInfoHeaderSmall.propTypes = {
   author: PropTypes.node,
   village: PropTypes.node,
   time: PropTypes.node,
 };
-export default UserInfoHeader;
+export default UserInfoHeaderSmall;

@@ -2,10 +2,6 @@ import { rest } from "msw";
 import { BASE_URL } from "../constants";
 
 export const handlers = [
-  rest.post(`${BASE_URL}/auth/sign-in`, (req, res, ctx) => {
-    return res(ctx.status(200), ctx.cookie("SESSION", "abc-123"));
-  }),
-
   rest.get(`${BASE_URL}/oauth2/authorization/naver`, (req, res, ctx) => {
     return res(ctx.status(302), ctx.cookie("SESSION", "abc-123"));
   }),
@@ -30,8 +26,8 @@ export const handlers = [
     );
   }),
 
-  rest.post(`${BASE_URL}/auth/sign-up`, (req, res, ctx) => {
-    return res(ctx.status(201));
+  rest.post(`${BASE_URL}/auth/sign-up`, (req, res) => {
+    return res;
   }),
 
   rest.post(`${BASE_URL}/register-mytown`, async (req, res, ctx) => {

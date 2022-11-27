@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { UserInfoHeader } from "../../components";
+import { UserInfoHeaderSmall } from "../../components";
 import styled from "styled-components";
 import MoreCommentBtn from "./MoreCommentBtn";
 import SubComment from "./SubComment";
@@ -22,7 +22,11 @@ function Comment({ author, village, content, createdDate, replyComments }) {
   return (
     <>
       <MainComment>
-        <UserInfoHeader author={author} village={village} time={createdDate} />
+        <UserInfoHeaderSmall
+          author={author}
+          village={village}
+          time={createdDate}
+        />
         <CommentText>{content}</CommentText>
         <MoreCommentBtn />
       </MainComment>

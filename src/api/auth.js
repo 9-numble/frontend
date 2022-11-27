@@ -14,7 +14,7 @@ export const callHomeApi = async (payload) => {
 export const callLoginApi = async (payload) => {
   try {
     const response = await axios.post(`${BASE_URL}/auth/sign-in`, payload);
-    if (response.status !== 200) throw new Error("Request faild");
+    if (response.status !== 200) throw new Error("Request failed");
     return response.status;
   } catch (error) {
     console.log(error);
@@ -35,21 +35,10 @@ export const callSocialLoginApi = async (type) => {
   }
 };
 
-export const callJoinApi = async (payload) => {
-  try {
-    const response = await axios.post(`${BASE_URL}/auth/sign-up`, payload);
-    if (response.status !== 201) throw new Error("Request faild");
-    return response;
-  } catch (error) {
-    console.log(error);
-    return error.response;
-  }
-};
-
 export const callGetUserApi = async () => {
   try {
     const response = await axios.get(`${BASE_URL}/users/static-info`);
-    if (response.status !== 200) throw new Error("Request faild");
+    if (response.status !== 200) throw new Error("Request failed");
     return response;
   } catch (error) {
     console.log(error);

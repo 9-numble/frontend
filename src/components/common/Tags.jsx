@@ -3,6 +3,8 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 
 const CardHeaderTags = styled.div`
+  margin-top: 8px;
+  padding: 0px 20px;
   margin-bottom: 8px;
   height: 26px;
   display: flex;
