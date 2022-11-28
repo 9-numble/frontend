@@ -19,14 +19,15 @@ const useLocalLogin = () => {
   const [validationMessage, setValidationMessage] = useRecoilState(
     loginValidationMessage
   );
-
   const login = async () => {
     const { errorField, errorMessage } = validateLoginInput(loginInputs);
     setErrorField(errorField);
     setValidationMessage(errorMessage);
     if (!errorMessage) {
       const response = axios
-        .post("http://3.36.78.249:8081/auth/sign-in", loginInputs)
+        .post("http://3.36.78.249/auth/sign-in", loginInputs, {
+          withCredentials: true,
+        })
         .then((res) => {
           if (res.status === 400) {
             setErrorField({ email: true, password: true });

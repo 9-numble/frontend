@@ -28,6 +28,7 @@ export function HomePage() {
   const [isOpen, setIsOpen] = useState(false);
   const [cardData, setCardData] = useState([]);
   const [categoryParams, setCategoryParams] = useState("전체");
+  const [animalParams, setAnimalParams] = useState("전체");
   const getCategory = (category) => {
     if (category === 0) {
       setCategoryParams("전체");
@@ -46,11 +47,34 @@ export function HomePage() {
     }
     console.log(categoryParams);
   };
+  const getAnimal = (animal) => {
+    if (animal === 0) {
+      setAnimalParams("전체");
+    } else if (animal === 1) {
+      setAnimalParams("강아지");
+    } else if (animal === 2) {
+      setAnimalParams("고양이");
+    } else if (animal === 3) {
+      setAnimalParams("물고기");
+    } else if (animal === 4) {
+      setAnimalParams("햄스터");
+    } else if (animal === 5) {
+      setAnimalParams("파충류");
+    } else if (animal === 6) {
+      setAnimalParams("새");
+    } else if (animal === 7) {
+      setAnimalParams("토끼");
+    } else if (animal === 8) {
+      setAnimalParams("기타");
+    }
+    console.log(animalParams);
+  };
 
   const fetchCardData = async () => {
     const APICategoryParams = encodeURIComponent(categoryParams);
+    const APIAnimalParams = encodeURIComponent(animalParams);
     const response = await axios.get(
-      `http://3.36.78.249:8081//board/list?categoryType=${APICategoryParams}`
+      `http://3.36.78.249:8081//board/list?animalTypes=${APIAnimalParams}categoryType=${APICategoryParams}`
     );
 
     console.log(categoryParams);
@@ -72,7 +96,7 @@ export function HomePage() {
     <>
       <StyledHeader>
         <FeedHeader />
-        <SearchBar onCategory={getCategory} />
+        <SearchBar onCategory={getCategory} onAnimal={getAnimal} />
       </StyledHeader>
       <Board cardData={cardData} />
       <WritePostBtn />
