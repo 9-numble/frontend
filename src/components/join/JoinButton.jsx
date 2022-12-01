@@ -21,7 +21,7 @@ function JoinButton({ isDisabled, failToJoin }) {
   const onClickJoinButton = async (e) => {
     e.preventDefault();
     const response = axios
-      .post("http://3.36.78.249/auth/sign-up", payload)
+      .post("http://3.34.109.49/auth/sign-up", payload)
       .then((res) => {
         if (res.status !== 201) throw new Error("Request failed");
         if (res.status === 201) {

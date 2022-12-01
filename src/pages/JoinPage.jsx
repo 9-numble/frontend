@@ -5,7 +5,21 @@ import history from "history/browser";
 import { CancelJoinPopup, PageHeader, JoinForm } from "../components";
 import { PageWrapper } from "../styled";
 import { isJoinCompleted } from "../store";
+import styled from "styled-components";
+const Completed = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 140%;
 
+  text-align: center;
+
+  color: #767676;
+`;
 function JoinPage() {
   const [isCompleted, setIsCompleted] = useRecoilState(isJoinCompleted);
   const [isGoBack, setIsGoBack] = useState(false);
@@ -38,7 +52,7 @@ function JoinPage() {
   }, [isCompleted, navigate, setIsCompleted]);
 
   if (isCompleted) {
-    return <div>회원가입이 완료되었습니다.</div>;
+    return <Completed>회원가입이 완료되었습니다.</Completed>;
   }
 
   return (

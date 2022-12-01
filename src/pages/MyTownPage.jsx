@@ -12,7 +12,8 @@ import { SubTitle1, PageWrapper } from "../styled";
 
 function MyTownPage() {
   const [isSearchMode, setIsSearchMode] = useState(false);
-  const { town } = useRecoilValue(user);
+  const { address } = useRecoilValue(user);
+  const town = address.regionDepth2;
 
   const onClickRegisterTownButton = () => {
     setIsSearchMode(true);

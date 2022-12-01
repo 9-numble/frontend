@@ -5,7 +5,7 @@ import { useSetRecoilState } from "recoil";
 import { user } from "../../../store";
 import { callRegisterMyTownApi } from "../../../api";
 
-const AddressItem = styled.li`
+const AddressItem = styled.div`
   ${({ theme: { fontSizes, colors } }) =>
     css`
       ${{
@@ -19,27 +19,35 @@ const AddressItem = styled.li`
 `;
 
 function AddressList({ searchResults, setIsSearchMode }) {
+  const address = searchResults;
   const setUser = useSetRecoilState(user);
 
   const onClick = async ({ target }) => {
-    const data = await callRegisterMyTownApi({ town: target.innerText });
+    console.log(user);
+    console.log(target.innerText);
+    console.log(address);
+    const data = await callRegisterMyTownApi({
+      addreessName: address.addressName,
+      regionDepth1: address.regionDepth1,
+      regionDepth2: address.regoinDepth2,
+    });
+    console.log(data);
     setUser(data);
     setIsSearchMode(false);
+    return;
   };
 
   return (
-    <ul>
-      {searchResults.map(({ regionDepth1, regionDepth2 }, i) => (
-        <AddressItem key={i} tabIndex={0} onClick={onClick}>
-          {regionDepth1} {regionDepth2}
-        </AddressItem>
-      ))}
-    </ul>
+    <AddressItem onClick={onClick}>
+      <div>
+        {address.regionDepth1} {address.regionDepth2}
+      </div>
+    </AddressItem>
   );
 }
 
 AddressList.propTypes = {
-  searchResults: PropTypes.array,
+  searchResults: PropTypes.object,
   setIsSearchMode: PropTypes.func,
 };
 

@@ -74,7 +74,7 @@ export function HomePage() {
     const APICategoryParams = encodeURIComponent(categoryParams);
     const APIAnimalParams = encodeURIComponent(animalParams);
     const response = await axios.get(
-      `http://3.36.78.249:8081//board/list?animalTypes=${APIAnimalParams}categoryType=${APICategoryParams}`
+      `http://3.34.109.49//board/list?animalTypes=${APIAnimalParams}categoryType=${APICategoryParams}`
     );
 
     console.log(categoryParams);
