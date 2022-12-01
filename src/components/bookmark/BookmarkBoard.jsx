@@ -13,14 +13,23 @@ const Wrapper = styled.div`
 
 function BookmarkBoard() {
   const [myBookmarks, setMyBookmarksData] = useState([]);
-  const fetchMyBookmarksData = async () => {
-    const response = await axios.get("http://3.36.78.249:8081//board/bookmark");
-    setMyBookmarksData(response.data);
+  const fetchMyBookmarksData = () => {
+    const response = axios
+      .get("http://3.34.109.49/board/bookmark", {
+        withCredentials: true,
+        headers: {
+          "X-Auth-Token": localStorage.loginToken,
+        },
+      })
+      .then((res) => {
+        setMyBookmarksData(res.data);
+      });
+    return response;
   };
 
   useEffect(() => {
     fetchMyBookmarksData();
-  });
+  }, []);
   return (
     <Wrapper>
       {myBookmarks.map((it) => (

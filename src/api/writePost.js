@@ -1,21 +1,35 @@
 import axios from "axios";
 import { BASE_URL } from "../constants";
-
-export const callRegisterPostApi = async (payload) => {
-  try {
-    const response = await axios({
+export const callRegisterImageApi = (payload) => {
+  const response = axios
+    .post(`${BASE_URL}/image/upload`, payload, {
+      withCredentials: true,
       headers: {
-        "Content-Type": "application/json",
+        "X-Auth-Token": localStorage.loginToken,
       },
-      url: `${BASE_URL}/board/add`,
-      method: "POST",
-      data: payload,
+    })
+    .then((res) => {
+      if (res.status !== 200) throw new Error("Request failed");
+    })
+    .catch((error) => {
+      console.log(error);
     });
+  return response;
+};
 
-    if (response.status !== 200) throw new Error("Request faild");
-    return response;
-  } catch (error) {
-    console.log(error);
-    return error.response;
-  }
+export const callRegisterPostApi = (payload) => {
+  const response = axios
+    .post(`${BASE_URL}/board/add`, payload, {
+      withCredentials: true,
+      headers: {
+        "X-Auth-Token": localStorage.loginToken,
+      },
+    })
+    .then((res) => {
+      if (res.status !== 200) throw new Error("Request failed");
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  return response;
 };

@@ -18,7 +18,7 @@ function SearchTown({ setIsSearchMode }) {
         setIsSearchMode={setIsSearchMode}
       />
       <FindCurrentLocationButton searchTownByIp={searchTownByIp} />
-      {!searchResults.length ? (
+      {searchResults.length === null ? (
         <NotFoundTown />
       ) : (
         <>

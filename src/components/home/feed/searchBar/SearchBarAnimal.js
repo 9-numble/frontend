@@ -4,6 +4,7 @@ import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
 import styled from "styled-components";
 import { tags } from "../../../../constants";
+import PropTypes from "prop-types";
 
 const Wrapper = styled(Box)`
   background-color: ${({ theme: { colors } }) => colors.bgMedium};
@@ -37,11 +38,12 @@ const Tag = styled(Tab)`
   }
 `;
 
-export default function SearchBarAnimal() {
+export default function SearchBarAnimal(props) {
   const [value, setValue] = React.useState(0);
 
   const handleClick = (event, newValue) => {
     setValue(newValue);
+    props.onAnimal(newValue);
   };
 
   return (
@@ -66,3 +68,6 @@ export default function SearchBarAnimal() {
     </Wrapper>
   );
 }
+SearchBarAnimal.propTypes = {
+  onAnimal: PropTypes.func,
+};

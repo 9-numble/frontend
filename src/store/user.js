@@ -1,9 +1,8 @@
 import { atom, selector } from "recoil";
-import { getCookie } from "../util";
 
 export const authenticated = atom({
   key: "authenticated",
-  default: getCookie("SESSION"),
+  default: false,
 });
 
 export const user = atom({

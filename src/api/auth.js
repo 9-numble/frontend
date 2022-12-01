@@ -3,7 +3,12 @@ import { BASE_URL } from "../constants";
 
 export const callHomeApi = async (payload) => {
   try {
-    const response = await axios.post(`${BASE_URL}/`, payload);
+    const response = await axios.post(`${BASE_URL}/`, payload, {
+      withCredentials: true,
+      headers: {
+        x_auth_token: localStorage.loginToken,
+      },
+    });
     if (response.status !== 200) throw new Error("Request failed");
     return response.status;
   } catch (error) {
@@ -11,42 +16,36 @@ export const callHomeApi = async (payload) => {
   }
 };
 
-export const callLoginApi = async (payload) => {
-  try {
-    const response = await axios.post(
-      "http://3.36.78.249:8081//auth/sign-in",
-      payload
-    );
-    console.log(payload);
-    console.log(response);
-    if (response.status !== 200) throw new Error("Request failed");
-    return response;
-  } catch (error) {
-    console.log(error);
-    return error.response.status;
-  }
+export const callSocialLoginApi = (type) => {
+  const response = axios
+    .get(`${BASE_URL}/oauth2/authorization/${type}`)
+    .then((res) => {
+      if (res.status !== 302) {
+        console.log("Request failed");
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+
+  return response;
 };
 
-export const callSocialLoginApi = async (type) => {
-  try {
-    const response = await axios.get(
-      `${BASE_URL}/oauth2/authorization/${type}`
-    );
-    if (response.status !== 302) throw new Error("Request faild");
-    return response.status;
-  } catch (error) {
-    console.log(error);
-    return error.response.status;
-  }
-};
-
-export const callGetUserApi = async () => {
-  try {
-    const response = await axios.get(`${BASE_URL}/users/static-info`);
-    if (response.status !== 200) throw new Error("Request failed");
-    return response;
-  } catch (error) {
-    console.log(error);
-    return error.response;
-  }
+export const callGetUserApi = () => {
+  const response = axios
+    .get(`${BASE_URL}/users/static-info`, {
+      withCredentials: true,
+      headers: {
+        "X-Auth-Token": localStorage.loginToken,
+      },
+    })
+    .then((res) => {
+      if (res.status !== 200) {
+        throw new Error("Request failed");
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  return response;
 };

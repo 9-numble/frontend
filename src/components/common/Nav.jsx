@@ -75,7 +75,7 @@ function Nav() {
         <NavButton
           label="프로필"
           component={Link}
-          to={"/profile/:userId"}
+          to={"/profile"}
           icon={<Icon src={value === 2 ? coloredProfile : ProfileIcon} />}
         />
       </NavButtonBox>
