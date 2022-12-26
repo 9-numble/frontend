@@ -19,7 +19,7 @@ const Wrapper = styled.div`
     color: #999999;
   }
 `;
-const InputBox = styled.div`
+const InputBox = styled.form`
   width: 320px;
   height: 46px;
   left: 20px;
@@ -69,6 +69,11 @@ function PostCommentBox() {
   const handleClick = () => {
     setShowInfo(true);
   };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(input);
+    setInput("");
+  };
 
   return (
     <>
@@ -81,9 +86,9 @@ function PostCommentBox() {
       ) : null}
 
       <Wrapper>
-        <InputBox>
+        <InputBox onSubmit={handleSubmit}>
           <input
-            value={input}
+            value={input || ""}
             type="text"
             placeholder="답글을 입력하세요."
             onChange={handleInput}
@@ -92,7 +97,7 @@ function PostCommentBox() {
             }}
             onClick={handleClick}
           />
-          <button disabled={isValid ? false : true}>
+          <button type="submit" disabled={isValid ? false : true}>
             <img src={isValid ? ColoredSubmitBtn : SubmitBtn} alt="img" />
           </button>
         </InputBox>

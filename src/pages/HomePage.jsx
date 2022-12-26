@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { useRecoilState } from "recoil";
 import axios from "axios";
+import { BASE_URL } from "../constants";
 import {
   FeedHeader,
   SearchBar,
@@ -74,7 +75,7 @@ export function HomePage() {
     const APICategoryParams = encodeURIComponent(categoryParams);
     const APIAnimalParams = encodeURIComponent(animalParams);
     const response = await axios.get(
-      `http://3.34.109.49//board/list?animalTypes=${APIAnimalParams}categoryType=${APICategoryParams}`
+      `${BASE_URL}/board/list?animalTypes=${APIAnimalParams}categoryType=${APICategoryParams}`
     );
 
     console.log(categoryParams);

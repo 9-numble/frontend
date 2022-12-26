@@ -48,11 +48,13 @@ function TagSelectors() {
   return (
     <>
       <TagSelector
+        name="categoryType"
         selectedTag={postTags.topic}
         placeholder={placeholder.topic}
         onClick={() => toggleModal(true, 0)}
       />
       <TagSelector
+        name="boardAnimalTypes"
         selectedTag={postTags.pet.join("/")}
         placeholder={placeholder.pet}
         onClick={() => toggleModal(true, 1)}

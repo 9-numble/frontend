@@ -5,7 +5,7 @@ import { BottomButton } from "../common";
 import { isJoinCompleted, joinInputsSelector } from "../../store";
 import axios from "axios";
 import { joinButtonProps as defaultJoinButtonProps } from "../../constants";
-
+import { BASE_URL } from "../../constants";
 function JoinButton({ isDisabled, failToJoin }) {
   const joinInputs = useRecoilValue(joinInputsSelector);
   const setIsCompleted = useSetRecoilState(isJoinCompleted);
@@ -21,7 +21,7 @@ function JoinButton({ isDisabled, failToJoin }) {
   const onClickJoinButton = async (e) => {
     e.preventDefault();
     const response = axios
-      .post("http://3.34.109.49/auth/sign-up", payload)
+      .post(`${BASE_URL}/auth/sign-up`, payload)
       .then((res) => {
         if (res.status !== 201) throw new Error("Request failed");
         if (res.status === 201) {

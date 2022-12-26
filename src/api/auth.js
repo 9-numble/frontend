@@ -31,21 +31,25 @@ export const callSocialLoginApi = (type) => {
   return response;
 };
 
-export const callGetUserApi = () => {
-  const response = axios
-    .get(`${BASE_URL}/users/static-info`, {
-      withCredentials: true,
-      headers: {
-        "X-Auth-Token": localStorage.loginToken,
-      },
-    })
-    .then((res) => {
-      if (res.status !== 200) {
-        throw new Error("Request failed");
-      }
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-  return response;
+export const callGetUserApi = async () => {
+  try {
+    const response = await axios
+      .get(`${BASE_URL}/users/static-info`, {
+        withCredentials: true,
+        headers: {
+          "X-Auth-Token": localStorage.loginToken,
+        },
+      })
+      .then((res) => {
+        if (res.status !== 200) {
+          throw new Error("Request failed");
+        }
+        console.log(res.data);
+        return res.data;
+      });
+    return response;
+  } catch (error) {
+    console.log(error);
+    return error.response;
+  }
 };

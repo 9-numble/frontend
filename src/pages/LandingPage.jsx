@@ -5,42 +5,44 @@ import styled from "styled-components";
 import { BottomButton } from "../components/common";
 import { startButtonProps } from "../constants";
 
+const Whole = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
 const Icon = styled.img`
-  position: absolute;
+  position: relative;
   width: 98px;
   height: 96px;
-  left: 131px;
-  top: 322px;
+  margin-top: 298px;
 `;
 const Icon_start = styled.img`
-  position: absolute;
+  position: relative;
   width: 98px;
   height: 96px;
-  left: 131px;
-  top: 164px;
+  margin-top: 140px;
 `;
 const Name = styled.div`
-  position: absolute;
+  position: relative;
   width: 49px;
   height: 39px;
-  left: 156px;
-  top: 280px;
+  margin-top: 20px;
+
   font-family: "Pretendard";
   font-style: normal;
   font-weight: 500;
   font-size: 28px;
   line-height: 140%;
-  /* or 39px */
-
   text-align: center;
 
   color: #111111;
 `;
 const Explanation = styled.div`
-  position: absolute;
-  left: 93px;
-  top: 319px;
-
+  position: relative;
   font-family: "Pretendard";
   font-style: normal;
   font-weight: 400;
@@ -70,16 +72,20 @@ function LandingPage() {
   }, []);
   if (start) {
     console.log("Logo");
-    return <Icon src={Logo} />;
+    return (
+      <Whole>
+        <Icon src={Logo} />
+      </Whole>
+    );
   }
 
   return (
-    <>
+    <Whole>
       <Icon_start src={Logo} />
       <Name>펫모</Name>
       <Explanation>지역기반 반려동물 커뮤니티</Explanation>
       <BottomButton onClick={handleBtnClick} buttonProps={startButtonProps} />
-    </>
+    </Whole>
   );
 }
 

@@ -43,7 +43,6 @@ function ImageUploader({ inputRef }) {
   const onChange = ({ target }) => {
     const files = target.files;
     if (imageFiles.length + files.length > 5) return;
-
     const newImagesFiles = Object.entries(files).reduce(
       (imageFiles, [i, file]) => {
         const src = URL.createObjectURL(file);
@@ -52,13 +51,12 @@ function ImageUploader({ inputRef }) {
       },
       []
     );
-
     setImageFiles({
       action: "ADD",
       newImagesFiles,
     });
+    return;
   };
-
   return (
     <Wrapper>
       <Button

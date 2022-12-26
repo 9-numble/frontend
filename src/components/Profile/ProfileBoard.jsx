@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { UserProfile } from "../../components";
 import ProfileTab from "./ProfileTab";
 import axios from "axios";
+import { BASE_URL } from "../../constants";
 
 const Wrapper = styled.div`
   box-sizing: border-box;
@@ -25,7 +26,7 @@ function ProfileBoard() {
   const [myComments, setMyCommentsData] = useState([]);
   const fetchProfileData = () => {
     const response = axios
-      .get("http://3.34.109.49/users/my-info", {
+      .get(`${BASE_URL}/users/my-info`, {
         withCredentials: true,
         headers: {
           "X-Auth-Token": localStorage.loginToken,
@@ -43,7 +44,7 @@ function ProfileBoard() {
   };
   const fetchMyPostsData = () => {
     const response = axios
-      .get("http://3.34.109.49/board/user", {
+      .get(`${BASE_URL}/board/user`, {
         withCredentials: true,
         headers: {
           "X-Auth-Token": localStorage.loginToken,
@@ -59,7 +60,7 @@ function ProfileBoard() {
   };
   const fetchMyCommentsData = () => {
     const response = axios
-      .get("http://3.34.109.49/comments/my-comments", {
+      .get(`${BASE_URL}/comments/my-comments`, {
         withCredentials: true,
         headers: {
           "X-Auth-Token": localStorage.loginToken,

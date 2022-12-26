@@ -6,10 +6,18 @@ export const callRegisterImageApi = (payload) => {
       withCredentials: true,
       headers: {
         "X-Auth-Token": localStorage.loginToken,
+        processData: false,
+        contentType: false,
       },
     })
     .then((res) => {
-      if (res.status !== 200) throw new Error("Request failed");
+      let imageIdArray = [];
+      const createImages = res.data.createImages;
+      for (let i = 0; i < createImages.length; i++) {
+        imageIdArray.push(createImages[i].id);
+      }
+      if (res.status !== 201) throw new Error("Request failed");
+      return imageIdArray;
     })
     .catch((error) => {
       console.log(error);
@@ -23,13 +31,16 @@ export const callRegisterPostApi = (payload) => {
       withCredentials: true,
       headers: {
         "X-Auth-Token": localStorage.loginToken,
+        "Content-Type": `application/json`,
       },
     })
     .then((res) => {
-      if (res.status !== 200) throw new Error("Request failed");
+      console.log("Doing Add Api");
+      if (res.status !== 201) throw new Error("Request failed");
     })
     .catch((error) => {
       console.log(error);
     });
+
   return response;
 };

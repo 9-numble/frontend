@@ -18,7 +18,7 @@ const useSearchTown = () => {
   };
 
   const searchTownByInput = async (input) => {
-    if (input === null || input.length < 2) {
+    if (input.length === null || input.length < 2) {
       setSearchResults({ regionDepth1: "", regionDepth2: "" });
       return;
     }

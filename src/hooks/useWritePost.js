@@ -3,14 +3,16 @@ import { useRecoilValue, useResetRecoilState } from "recoil";
 import { postTextAtom, postTagsAtom } from "../store";
 import { callRegisterPostApi } from "../api";
 import { postImageFilesAtom } from "../store";
+import { callRegisterImageApi } from "../api/writePost";
+import { user } from "../store";
 
 const useWritePost = () => {
   const [canSubmitPost, setCanSubmitPost] = useState(false);
   const postTags = useRecoilValue(postTagsAtom);
   const postText = useRecoilValue(postTextAtom);
   const imageFiles = useRecoilValue(postImageFilesAtom);
+  const { address } = useRecoilValue(user);
   const snackbarMessage = useRef("");
-  const formData = new FormData();
 
   const resetPostTags = useResetRecoilState(postTagsAtom);
   const resetPostText = useResetRecoilState(postTextAtom);
@@ -48,19 +50,41 @@ const useWritePost = () => {
     snackbarMessage.current = setSnackbarMessage();
   };
 
-  const registerPost = async () => {
-    imageFiles.forEach((image) => formData.append("images", image.file));
-    formData.set("topic", postTags.topic);
-    formData.set("pet", postTags.pet);
-    formData.set("text", postText);
-    const response = await callRegisterPostApi(formData);
-    console.log(response);
+  const onClickPost = async () => {
+    const imgFormData = new FormData();
+    async function makeFormData() {
+      imageFiles.forEach((image) => {
+        imgFormData.append("images", image.file);
+        console.log(image);
+      });
+    }
+
+    makeFormData()
+      .then(async function handleImages() {
+        const registerImages = await callRegisterImageApi(imgFormData);
+        console.log(registerImages);
+        return registerImages;
+      })
+      .then(async (req) => {
+        const imageIds = req;
+        const town = address.regionDepth2;
+        const data = {
+          content: postText,
+          imageIds: imageIds,
+          categoryType: postTags.topic,
+          boardAddress: town,
+          boardAnimalTypes: postTags.pet,
+        };
+        const registerPost = await callRegisterPostApi(data);
+        return registerPost;
+      });
+    return;
   };
 
   return {
     canSubmitPost,
     snackbarMessage: snackbarMessage.current,
-    registerPost,
+    onClickPost,
   };
 };
 
