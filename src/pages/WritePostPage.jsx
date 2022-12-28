@@ -12,20 +12,20 @@ import { useWritePost } from "../hooks";
 import { PageWrapper } from "../styled";
 
 function WritePostPage() {
-  const { canSubmitPost, snackbarMessage, registerPost } = useWritePost();
+  const { canSubmitPost, snackbarMessage, onClickPost } = useWritePost();
   const [isOpenSnackbar, setIsOpenSnackbar] = useState(false);
   const inputFile = useRef(null);
 
   const registerPostButton = (
     <RegisterPostButton
       isDisabled={!canSubmitPost}
-      onClickWhenAble={() => registerPost()}
+      onClickWhenAble={() => onClickPost()}
       onClickWhenDisable={() => setIsOpenSnackbar(true)}
     />
   );
 
   return (
-    <form>
+    <form method="POST" encType="multipart/form-data">
       <PageWrapper>
         <PageHeader
           leftButtonType="exit"

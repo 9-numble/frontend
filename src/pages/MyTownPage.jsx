@@ -22,7 +22,10 @@ function MyTownPage() {
   return (
     <PageWrapper>
       {isSearchMode ? (
-        <SearchTown setIsSearchMode={setIsSearchMode} />
+        <SearchTown
+          isSearchMode={isSearchMode}
+          setIsSearchMode={setIsSearchMode}
+        />
       ) : (
         <>
           <PageHeader pageTitle="내 동네 설정하기" />

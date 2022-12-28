@@ -8,12 +8,12 @@ const useUser = () => {
   const setUser = useSetRecoilState(userSelector);
 
   useEffect(() => {
-    (async () => {
-      if (isAuthenticated) {
-        const response = await callGetUserApi();
-        setUser(response.data);
-      }
-    })();
+    async function getUserApi() {
+      const response = await callGetUserApi();
+      console.log(response);
+      setUser(response);
+    }
+    getUserApi();
   }, [isAuthenticated]);
 
   return isAuthenticated;

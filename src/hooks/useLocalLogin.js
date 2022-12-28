@@ -8,6 +8,7 @@ import {
 import axios from "axios";
 import { validateLoginInput } from "../util";
 import { validateErrorMessage } from "../constants";
+import { BASE_URL } from "../constants";
 
 const useLocalLogin = () => {
   const setIsAuthenticated = useSetRecoilState(authenticated);
@@ -25,7 +26,7 @@ const useLocalLogin = () => {
     setValidationMessage(errorMessage);
     if (!errorMessage) {
       const response = axios
-        .post("http://3.34.109.49/auth/sign-in", loginInputs, {
+        .post(`${BASE_URL}/auth/sign-in`, loginInputs, {
           withCredentials: true,
           headers: {
             "X-Auth-Token": localStorage.loginToken,

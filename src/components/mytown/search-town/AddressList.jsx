@@ -18,27 +18,25 @@ const AddressItem = styled.div`
     `}
 `;
 
-function AddressList({ searchResults, setIsSearchMode }) {
+function AddressList({ searchResults, setIsSearchMode, isSearchMode }) {
   const address = searchResults;
   const setUser = useSetRecoilState(user);
 
-  const onClick = async ({ target }) => {
-    console.log(user);
-    console.log(target.innerText);
-    console.log(address);
-    const data = await callRegisterMyTownApi({
-      addreessName: address.addressName,
+  const onClickRegisterTown = async ({ target }) => {
+    const response = await callRegisterMyTownApi({
+      addressName: target.innerText,
       regionDepth1: address.regionDepth1,
-      regionDepth2: address.regoinDepth2,
+      regionDepth2: address.regionDepth2,
     });
-    console.log(data);
-    setUser(data);
     setIsSearchMode(false);
-    return;
+    return response;
   };
+  if (isSearchMode === false) {
+    setUser(onClickRegisterTown);
+  }
 
   return (
-    <AddressItem onClick={onClick}>
+    <AddressItem onClick={onClickRegisterTown}>
       <div>
         {address.regionDepth1} {address.regionDepth2}
       </div>
@@ -49,6 +47,7 @@ function AddressList({ searchResults, setIsSearchMode }) {
 AddressList.propTypes = {
   searchResults: PropTypes.object,
   setIsSearchMode: PropTypes.func,
+  isSearchMode: PropTypes.bool,
 };
 
 export default AddressList;

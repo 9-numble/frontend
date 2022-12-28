@@ -29,11 +29,13 @@ function LoginForm() {
             {...emailFieldProps(authType)}
             onBlur={onBlurTextField}
             isValid={!errorField.email}
+            autocomplete="on"
           />
           <FormTextField
             {...passwordFieldProps(authType)}
             onBlur={onBlurTextField}
             isValid={!errorField.password}
+            autocomplete="on"
           />
         </FormField>
         <FormErrorMessage

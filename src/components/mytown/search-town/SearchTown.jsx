@@ -7,7 +7,7 @@ import AddressSearchBar from "./AddressSearchBar";
 import NotFoundTown from "./NotFoundTown";
 import { useSearchTown } from "../../../hooks";
 
-function SearchTown({ setIsSearchMode }) {
+function SearchTown({ isSearchMode, setIsSearchMode }) {
   const { subTitle, searchResults, searchTownByIp, searchTownByInput } =
     useSearchTown();
 
@@ -25,6 +25,7 @@ function SearchTown({ setIsSearchMode }) {
           <SubTitle2>{subTitle}</SubTitle2>
           <AddressList
             searchResults={searchResults}
+            isSearchMode={isSearchMode}
             setIsSearchMode={setIsSearchMode}
           />
         </>
@@ -34,6 +35,7 @@ function SearchTown({ setIsSearchMode }) {
 }
 
 SearchTown.propTypes = {
+  isSearchMode: PropTypes.bool,
   setIsSearchMode: PropTypes.func,
 };
 

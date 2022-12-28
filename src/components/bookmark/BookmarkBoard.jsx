@@ -3,6 +3,7 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 import BookmarkCard from "./BookmarkCard";
 import axios from "axios";
+import { BASE_URL } from "../../constants";
 
 const Wrapper = styled.div`
   box-sizing: border-box;
@@ -15,7 +16,7 @@ function BookmarkBoard() {
   const [myBookmarks, setMyBookmarksData] = useState([]);
   const fetchMyBookmarksData = () => {
     const response = axios
-      .get("http://3.34.109.49/board/bookmark", {
+      .get(`${BASE_URL}/board/bookmark`, {
         withCredentials: true,
         headers: {
           "X-Auth-Token": localStorage.loginToken,

@@ -11,11 +11,11 @@ const Wrapper = styled.div`
   height: 56px;
   background-color: white;
   border-bottom: 1px solid #e5e5ec;
-  padding: 0px 20px;
 `;
 
 const LeftButton = styled.span`
   position: absolute;
+  padding-left: 20px;
 `;
 
 const RightButton = styled.span`
