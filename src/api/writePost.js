@@ -1,5 +1,6 @@
 import axios from "axios";
 import { BASE_URL } from "../constants";
+
 export const callRegisterImageApi = (payload) => {
   const response = axios
     .post(`${BASE_URL}/image/upload`, payload, {
@@ -35,7 +36,9 @@ export const callRegisterPostApi = (payload) => {
       },
     })
     .then((res) => {
-      console.log("Doing Add Api");
+      if (res.status === 201) {
+        console.log("Going home");
+      }
       if (res.status !== 201) throw new Error("Request failed");
     })
     .catch((error) => {

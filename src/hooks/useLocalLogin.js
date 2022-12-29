@@ -40,7 +40,6 @@ const useLocalLogin = () => {
             setErrorField({ email: true, password: true });
             setValidationMessage(validateErrorMessage.loginFailed);
           } else {
-            console.log(res);
             setIsAuthenticated(true);
           }
         });

@@ -5,8 +5,10 @@ import { callRegisterPostApi } from "../api";
 import { postImageFilesAtom } from "../store";
 import { callRegisterImageApi } from "../api/writePost";
 import { user } from "../store";
+import { useNavigate } from "react-router-dom";
 
 const useWritePost = () => {
+  const navigate = useNavigate();
   const [canSubmitPost, setCanSubmitPost] = useState(false);
   const postTags = useRecoilValue(postTagsAtom);
   const postText = useRecoilValue(postTextAtom);
@@ -78,6 +80,7 @@ const useWritePost = () => {
         const registerPost = await callRegisterPostApi(data);
         return registerPost;
       });
+    navigate("/");
     return;
   };
 
