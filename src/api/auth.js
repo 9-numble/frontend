@@ -1,6 +1,5 @@
 import axios from "axios";
 import { BASE_URL } from "../constants";
-
 export const callHomeApi = async (payload) => {
   try {
     const response = await axios.post(`${BASE_URL}/`, payload, {

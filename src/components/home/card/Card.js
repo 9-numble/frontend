@@ -18,49 +18,58 @@ const Wrapper = styled.div`
 `;
 
 function Card({
-  id,
   type,
-  author,
-  village,
-  time,
+  boardId,
   content,
-  likeNumber,
-  bookmarkNumber,
-  commentNumber,
-  myLike,
-  myBookmark,
-  categoryTag,
-  animalTag,
+  imageIds,
+  nickname,
+  boardAnimalTypes,
+  categoryType,
+  likeCount,
+  likeCheck,
+  bookmarkCount,
+  bookmarkCheck,
+  boardAddress,
+  createdDate,
 }) {
   return (
     <Wrapper>
-      <UserInfoHeader author={author} village={village} time={time} />
-      <Tags categoryTag={categoryTag} animalTag={animalTag} />
-      <Content type={type} content={content} postId={id} />
+      <UserInfoHeader
+        author={nickname}
+        village={boardAddress}
+        time={createdDate}
+      />
+      <Tags categoryTag={categoryType} animalTag={boardAnimalTypes} />
+      <Content
+        type={type}
+        content={content}
+        boardId={boardId}
+        imageIds={imageIds}
+      />
       <CardFooter
-        myLike={myLike}
-        myBookmark={myBookmark}
-        likeNumberProps={likeNumber}
-        bookmarkNumberProps={bookmarkNumber}
-        commentNumberProps={commentNumber}
+        boardId={boardId}
+        likeCheck={likeCheck}
+        bookmarkCheck={bookmarkCheck}
+        likeCount={likeCount}
+        bookmarkCount={bookmarkCount}
       />
     </Wrapper>
   );
 }
 Card.propTypes = {
-  id: PropTypes.node,
-  type: PropTypes.node,
-  author: PropTypes.node,
-  village: PropTypes.node,
-  time: PropTypes.node,
-  content: PropTypes.object,
-  likeNumber: PropTypes.number,
-  bookmarkNumber: PropTypes.number,
-  commentNumber: PropTypes.number,
-  myLike: PropTypes.bool,
-  myBookmark: PropTypes.bool,
-  categoryTag: PropTypes.string,
-  animalTag: PropTypes.array,
+  type: PropTypes.string,
+  boardId: PropTypes.number,
+  content: PropTypes.string,
+  nickname: PropTypes.string,
+  boardAnimalTypes: PropTypes.array,
+  categoryType: PropTypes.string,
+  likeCount: PropTypes.number,
+  likeCheck: PropTypes.bool,
+  bookmarkCount: PropTypes.number,
+  bookmarkCheck: PropTypes.bool,
+  boardAddress: PropTypes.string,
+  createdDate: PropTypes.string,
+  imageIds: PropTypes.array,
 };
 
 export default Card;

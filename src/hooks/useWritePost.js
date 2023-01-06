@@ -5,10 +5,8 @@ import { callRegisterPostApi } from "../api";
 import { postImageFilesAtom } from "../store";
 import { callRegisterImageApi } from "../api/writePost";
 import { user } from "../store";
-import { useNavigate } from "react-router-dom";
 
 const useWritePost = () => {
-  const navigate = useNavigate();
   const [canSubmitPost, setCanSubmitPost] = useState(false);
   const postTags = useRecoilValue(postTagsAtom);
   const postText = useRecoilValue(postTextAtom);
@@ -62,7 +60,7 @@ const useWritePost = () => {
     }
 
     makeFormData()
-      .then(async function handleImages() {
+      .then(async () => {
         const registerImages = await callRegisterImageApi(imgFormData);
         console.log(registerImages);
         return registerImages;
@@ -70,20 +68,19 @@ const useWritePost = () => {
       .then(async (req) => {
         const imageIds = req;
         const town = address.regionDepth2;
-        const data = {
+        const postData = {
           content: postText,
           imageIds: imageIds,
           categoryType: postTags.topic,
           boardAddress: town,
           boardAnimalTypes: postTags.pet,
         };
-        const registerPost = await callRegisterPostApi(data);
+
+        const registerPost = await callRegisterPostApi(postData);
         return registerPost;
       });
-    navigate("/");
     return;
   };
-
   return {
     canSubmitPost,
     snackbarMessage: snackbarMessage.current,

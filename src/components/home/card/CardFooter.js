@@ -41,22 +41,28 @@ const Collumn_watched = styled.div`
 `;
 
 function CardFooter({
-  likeNumberProps,
-  bookmarkNumberProps,
+  likeCount,
+  bookmarkCount,
   commentNumberProps,
-  myLike,
-  myBookmark,
+  likeCheck,
+  bookmarkCheck,
+  boardId,
 }) {
   return (
     <Wrapper>
       <Column_buttons>
         <Button>
-          <HeartBtn myLike={myLike} likeNumber={likeNumberProps} />
+          <HeartBtn
+            likeCheck={likeCheck}
+            likeCount={likeCount}
+            boardId={boardId}
+          />
         </Button>
         <Button>
           <BookmarkBtn
-            myBookmark={myBookmark}
-            bookmarkNumber={bookmarkNumberProps}
+            bookmarkCheck={bookmarkCheck}
+            bookmarkCount={bookmarkCount}
+            boardId={boardId}
           />
         </Button>
         <Button>
@@ -71,11 +77,12 @@ function CardFooter({
   );
 }
 CardFooter.propTypes = {
-  likeNumberProps: PropTypes.number,
-  bookmarkNumberProps: PropTypes.number,
+  likeCount: PropTypes.number,
+  bookmarkCount: PropTypes.number,
   commentNumberProps: PropTypes.number,
-  myLike: PropTypes.bool,
-  myBookmark: PropTypes.bool,
+  likeCheck: PropTypes.bool,
+  bookmarkCheck: PropTypes.bool,
+  boardId: PropTypes.number,
 };
 
 export default CardFooter;

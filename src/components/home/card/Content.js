@@ -1,8 +1,9 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { ContentText, ContentImage } from "./contents";
+import { callPostUrl } from "../../../api";
 
 const Wrapper = styled.div`
   margin: 8px 20px;
@@ -11,45 +12,51 @@ const Wrapper = styled.div`
   font-weight: 400;
   font-size: 16px;
   line-height: 140%;
+  display: flex;
+  justify-content: center;
   /* or 22px */
 
   color: #111111;
 `;
 
-function Content({ content, postId, type }) {
-  if (content.text !== null && content.image === null) {
+function Content({ content, imageIds, boardId, type }) {
+  const getPost = () => {
+    callPostUrl(boardId);
+  };
+  if (content !== null && imageIds === null) {
     return (
-      <Wrapper>
-        <Link to={`/post/${postId}`}>
-          <ContentText content_text={content.text} type={type} />
+      <Wrapper onClick={getPost}>
+        <Link to={`/post/${boardId}`}>
+          <ContentText content_text={content} type={type} />
         </Link>
       </Wrapper>
     );
   }
-  if (content.image !== null && content.text === null) {
+  if (imageIds !== null && content === null) {
     return (
-      <Wrapper>
-        <ContentImage content_image={content.image} type={type} />
+      <Wrapper onClick={getPost}>
+        <Link to={`/post/${boardId}`}>
+          <ContentImage content_image={imageIds} type={type} />
+        </Link>
       </Wrapper>
     );
   }
-  if (content.text !== null && content.image !== null) {
+  if (content !== null && imageIds !== null) {
     return (
-      <Wrapper>
-        <Link to={`/post/${postId}`}>
-          <ContentText content_text={content.text} type={type} />
+      <Wrapper onClick={getPost}>
+        <Link to={`/post/${boardId}`}>
+          <ContentText content_text={content} type={type} />
+          <ContentImage content_image={imageIds} type={type} />
         </Link>
-        <ContentImage content_image={content.image} type={type} />
       </Wrapper>
     );
   }
 }
 
 Content.propTypes = {
-  postId: PropTypes.node,
+  boardId: PropTypes.number,
   type: PropTypes.node,
-  content: PropTypes.object,
-  content_text: PropTypes.node,
-  content_image: PropTypes.array,
+  content: PropTypes.string,
+  imageIds: PropTypes.array,
 };
 export default Content;

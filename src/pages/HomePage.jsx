@@ -72,13 +72,19 @@ export function HomePage() {
   };
 
   const fetchCardData = async () => {
-    const APICategoryParams = encodeURIComponent(categoryParams);
-    const APIAnimalParams = encodeURIComponent(animalParams);
-    const response = await axios.get(
-      `${BASE_URL}/board/list?animalTypes=${APIAnimalParams}categoryType=${APICategoryParams}`
-    );
-
+    const town = user.address.regionDepth2;
+    const town2 = "전체";
+    console.log(town);
+    console.log(animalParams);
     console.log(categoryParams);
+    const response = await axios.get(
+      `${BASE_URL}/board/list?address=${town2}&category=${categoryParams}&animal=${animalParams}`,
+      {
+        headers: {
+          "X-Auth-Token": localStorage.loginToken,
+        },
+      }
+    );
     setCardData(response.data);
   };
 
@@ -93,13 +99,15 @@ export function HomePage() {
   useEffect(() => {
     fetchCardData();
   }, [categoryParams]);
+
+  console.log(cardData);
   return (
     <>
       <StyledHeader>
         <FeedHeader />
         <SearchBar onCategory={getCategory} onAnimal={getAnimal} />
       </StyledHeader>
-      <Board cardData={cardData} />
+      <Board cardData={cardData} type="main" />
       <WritePostBtn />
       <Nav />
       <BottomModal

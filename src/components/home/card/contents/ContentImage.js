@@ -1,11 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { useImagePath } from "../../../../hooks";
 const ImageArea = styled.div`
   margin-top: 16px;
+  width: 320px;
+  height: 220px;
+  object-fit: contain;
+  overflow: hidden;
 `;
 const StyledSlider = styled(Slider)`
   width: 320px;
@@ -46,6 +51,8 @@ const StyledSlider = styled(Slider)`
 `;
 
 function ContentImage({ content_image, type }) {
+  const { getImageUrl } = useImagePath();
+  const [mainImage, setMainImage] = useState("");
   if (type === "full") {
     const settings = {
       dots: true,
@@ -56,15 +63,24 @@ function ContentImage({ content_image, type }) {
     };
     return (
       <StyledSlider {...settings}>
-        {content_image.map((image) => {
-          return <img key={image.id} src={image.src} alt="img"></img>;
+        {content_image.map(async (image) => {
+          const imageUrl = await getImageUrl(image);
+          return <img key={image.id} src={imageUrl} alt="img"></img>;
         })}
       </StyledSlider>
     );
   } else {
+    const getMainImage = async () => {
+      const imageData = await getImageUrl(content_image[0]);
+      return imageData;
+    };
+    getMainImage().then((res) => {
+      setMainImage(res);
+      console.log(mainImage);
+    });
     return (
       <ImageArea>
-        <img src={content_image[0].src} alt="img"></img>
+        <img src={mainImage} alt="img"></img>
       </ImageArea>
     );
   }
