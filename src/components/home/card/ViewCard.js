@@ -17,21 +17,22 @@ const Wrapper = styled.div`
   padding-top: 20px;
 `;
 
-function Card({
-  type,
-  boardId,
-  content,
-  imageIds,
-  nickname,
-  boardAnimalTypes,
-  categoryType,
-  likeCount,
-  likeCheck,
-  bookmarkCount,
-  bookmarkCheck,
-  boardAddress,
-  createdDate,
-}) {
+function ViewCard({ post, type }) {
+  const {
+    nickname,
+    boardAddress,
+    createdDate,
+    boardId,
+    likeCheck,
+    bookmarkCheck,
+    likeCount,
+    bookmarkCount,
+    categoryType,
+    boardAnimalTypes,
+    content,
+    imageIds,
+  } = post;
+  console.log(categoryType);
   console.log(boardAnimalTypes);
   return (
     <Wrapper>
@@ -57,7 +58,11 @@ function Card({
     </Wrapper>
   );
 }
-Card.propTypes = {
+ViewCard.propTypes = {
+  post: PropTypes.object,
+  postId: PropTypes.string,
+  setPost: PropTypes.func,
+  setComments: PropTypes.func,
   type: PropTypes.string,
   boardId: PropTypes.number,
   content: PropTypes.string,
@@ -73,4 +78,4 @@ Card.propTypes = {
   imageIds: PropTypes.array,
 };
 
-export default Card;
+export default ViewCard;

@@ -98,7 +98,7 @@ export function HomePage() {
 
   useEffect(() => {
     fetchCardData();
-  }, [categoryParams]);
+  }, [categoryParams, animalParams]);
 
   console.log(cardData);
   return (

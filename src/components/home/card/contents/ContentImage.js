@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import Slider from "react-slick";
@@ -50,9 +50,23 @@ const StyledSlider = styled(Slider)`
   }
 `;
 
-function ContentImage({ content_image, type }) {
+function ContentImage({ imageIdsArray, type }) {
   const { getImageUrl } = useImagePath();
-  const [mainImage, setMainImage] = useState("");
+  const [imageUrlArray, setImageUrlArray] = useState([]);
+  const [mainImageUrl, setMainImageUrl] = useState("");
+  const getImage = async (imageId) => {
+    const imageUrl = await getImageUrl(imageId);
+    setImageUrlArray((currentImageUrl) => [...currentImageUrl, imageUrl]);
+    return setImageUrlArray;
+  };
+
+  useEffect(() => {
+    for (let i = 0; i < imageIdsArray.length; i++) {
+      getImage(imageIdsArray[i]);
+      return;
+    }
+  }, []);
+
   if (type === "full") {
     const settings = {
       dots: true,
@@ -61,26 +75,25 @@ function ContentImage({ content_image, type }) {
       slidesToShow: 1,
       slidesToScroll: 1,
     };
+
     return (
       <StyledSlider {...settings}>
-        {content_image.map(async (image) => {
-          const imageUrl = await getImageUrl(image);
-          return <img key={image.id} src={imageUrl} alt="img"></img>;
+        {imageUrlArray.map((imageUrl, index) => {
+          return <img key={index} src={imageUrl} alt="img"></img>;
         })}
       </StyledSlider>
     );
   } else {
     const getMainImage = async () => {
-      const imageData = await getImageUrl(content_image[0]);
+      const imageData = await getImageUrl(imageIdsArray[0]);
       return imageData;
     };
     getMainImage().then((res) => {
-      setMainImage(res);
-      console.log(mainImage);
+      setMainImageUrl(res);
     });
     return (
       <ImageArea>
-        <img src={mainImage} alt="img"></img>
+        <img src={mainImageUrl} alt="img"></img>
       </ImageArea>
     );
   }
@@ -89,6 +102,6 @@ function ContentImage({ content_image, type }) {
 export default ContentImage;
 
 ContentImage.propTypes = {
-  content_image: PropTypes.array,
+  imageIdsArray: PropTypes.array,
   type: PropTypes.node,
 };

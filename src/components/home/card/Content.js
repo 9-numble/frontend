@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { ContentText, ContentImage } from "./contents";
-import { callPostUrl } from "../../../api";
 
 const Wrapper = styled.div`
   margin: 8px 20px;
@@ -20,12 +19,9 @@ const Wrapper = styled.div`
 `;
 
 function Content({ content, imageIds, boardId, type }) {
-  const getPost = () => {
-    callPostUrl(boardId);
-  };
   if (content !== null && imageIds === null) {
     return (
-      <Wrapper onClick={getPost}>
+      <Wrapper>
         <Link to={`/post/${boardId}`}>
           <ContentText content_text={content} type={type} />
         </Link>
@@ -34,19 +30,19 @@ function Content({ content, imageIds, boardId, type }) {
   }
   if (imageIds !== null && content === null) {
     return (
-      <Wrapper onClick={getPost}>
+      <Wrapper>
         <Link to={`/post/${boardId}`}>
-          <ContentImage content_image={imageIds} type={type} />
+          <ContentImage imageIds={imageIds} type={type} />
         </Link>
       </Wrapper>
     );
   }
   if (content !== null && imageIds !== null) {
     return (
-      <Wrapper onClick={getPost}>
+      <Wrapper>
         <Link to={`/post/${boardId}`}>
           <ContentText content_text={content} type={type} />
-          <ContentImage content_image={imageIds} type={type} />
+          <ContentImage imageIdsArray={imageIds} type={type} />
         </Link>
       </Wrapper>
     );

@@ -81,6 +81,7 @@ const useWritePost = () => {
       });
     return;
   };
+
   return {
     canSubmitPost,
     snackbarMessage: snackbarMessage.current,

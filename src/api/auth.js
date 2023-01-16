@@ -43,7 +43,6 @@ export const callGetUserApi = async () => {
         if (res.status !== 200) {
           throw new Error("Request failed");
         }
-        console.log(res.data);
         return res.data;
       });
     return response;

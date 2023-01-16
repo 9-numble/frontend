@@ -18,13 +18,13 @@ const CommentText = styled.div`
   color: #000000;
 `;
 
-function Comment({ author, village, content, createdDate, replyComments }) {
+function Comment({ author, address, content, createdDate, replyComments }) {
   return (
     <>
       <MainComment>
         <UserInfoHeaderSmall
           author={author}
-          village={village}
+          village={address}
           time={createdDate}
         />
         <CommentText>{content}</CommentText>
@@ -40,7 +40,7 @@ function Comment({ author, village, content, createdDate, replyComments }) {
 }
 Comment.propTypes = {
   author: PropTypes.node,
-  village: PropTypes.node,
+  address: PropTypes.node,
   content: PropTypes.node,
   createdDate: PropTypes.node,
   commentId: PropTypes.node,

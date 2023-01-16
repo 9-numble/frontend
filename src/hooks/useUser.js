@@ -10,7 +10,6 @@ const useUser = () => {
   useEffect(() => {
     async function getUserApi() {
       const response = await callGetUserApi();
-      console.log(response);
       setUser(response);
     }
     getUserApi();
