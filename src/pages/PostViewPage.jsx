@@ -1,7 +1,7 @@
 import React, { useState, useLayoutEffect } from "react";
 import { useParams } from "react-router-dom";
 import { PageHeader } from "../components";
-import { ViewCard, PostCommentBox, CommentBox } from "../components";
+import { ViewCard, CommentBox } from "../components";
 import Menu from "../css/icon/Menu.svg";
 import styled from "styled-components";
 import { callPostUrl } from "../api/post";
@@ -36,7 +36,6 @@ function PostViewPage() {
         />
         <ViewCard key={postId} type={"full"} post={post} postId={postId} />
         <CommentBox />
-        <PostCommentBox />
       </Wrapper>
     );
   }

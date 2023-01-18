@@ -1,10 +1,16 @@
 import React, { useState } from "react";
+import PropTypes from "prop-types";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import SubmitBtn from "../../css/icon/SubmitBtn.svg";
 import ColoredSubmitBtn from "../../css/icon/ColoredSubmitBtn.svg";
+import { callRegisterCommentApi } from "../../api";
 
 const Wrapper = styled.div`
+  position: fixed;
+  bottom: 9px;
   height: 64px;
+  width: 100%;
   background-color: white;
   display: flex;
   flex-direction: column;
@@ -41,13 +47,16 @@ const InputBox = styled.form`
     justify-content: center;
   }
 `;
+{
+  /*}
 const CommentInfo = styled.div`
   background: #f1f1f5;
   height: 36px;
   display: flex;
   align-items: center;
 `;
-const CommentInfoText = styled.div`
+{
+  /*const CommentInfoText = styled.div`
   font-family: "Pretendard";
   font-style: normal;
   font-weight: 400;
@@ -58,52 +67,56 @@ const CommentInfoText = styled.div`
   span {
     color: #fa3c89;
   }
-`;
-function PostCommentBox() {
+`;*/
+}
+function PostCommentBox(props) {
+  const { postId } = useParams();
   const [input, setInput] = useState();
   const [isValid, setIsValid] = useState(false);
-  const [showInfo, setShowInfo] = useState(false);
+  //const [showInfo, setShowInfo] = useState(false);
   const handleInput = (e) => {
     setInput(e.target.value);
   };
-  const handleClick = () => {
+  {
+    /*const handleClick = () => {
     setShowInfo(true);
+  };*/
+  }
+  const registerComment = async () => {
+    const response = await callRegisterCommentApi({
+      boardId: postId,
+      content: input,
+    });
+    return response;
   };
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(input);
+    await registerComment();
+    props.handleCommentInput();
     setInput("");
   };
 
   return (
-    <>
-      {showInfo ? (
-        <CommentInfo>
-          <CommentInfoText>
-            <span>챌이2</span>님에게 답글 남기는 중
-          </CommentInfoText>
-        </CommentInfo>
-      ) : null}
-
-      <Wrapper>
-        <InputBox onSubmit={handleSubmit}>
-          <input
-            value={input || ""}
-            type="text"
-            placeholder="답글을 입력하세요."
-            onChange={handleInput}
-            onKeyUp={(e) => {
-              e.target.value.length > 0 ? setIsValid(true) : setIsValid(false);
-            }}
-            onClick={handleClick}
-          />
-          <button type="submit" disabled={isValid ? false : true}>
-            <img src={isValid ? ColoredSubmitBtn : SubmitBtn} alt="img" />
-          </button>
-        </InputBox>
-      </Wrapper>
-    </>
+    <Wrapper>
+      <InputBox onSubmit={handleSubmit}>
+        <input
+          value={input || ""}
+          type="text"
+          placeholder="댓글을 입력하세요."
+          onChange={handleInput}
+          onKeyUp={(e) => {
+            e.target.value.length > 0 ? setIsValid(true) : setIsValid(false);
+          }}
+        />
+        <button type="submit" disabled={isValid ? false : true}>
+          <img src={isValid ? ColoredSubmitBtn : SubmitBtn} alt="img" />
+        </button>
+      </InputBox>
+    </Wrapper>
   );
 }
+PostCommentBox.propTypes = {
+  handleCommentInput: PropTypes.func,
+};
 
 export default PostCommentBox;
