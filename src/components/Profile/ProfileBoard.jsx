@@ -22,8 +22,6 @@ const PostWrapper = styled.div`
 
 function ProfileBoard() {
   const [profileData, setProfileData] = useState({});
-  const [myPosts, setMyPostsData] = useState([]);
-  const [myComments, setMyCommentsData] = useState([]);
   const fetchProfileData = () => {
     const response = axios
       .get(`${BASE_URL}/users/my-info`, {
@@ -42,42 +40,9 @@ function ProfileBoard() {
       });
     return response;
   };
-  const fetchMyPostsData = () => {
-    const response = axios
-      .get(`${BASE_URL}/board/user`, {
-        withCredentials: true,
-        headers: {
-          "X-Auth-Token": localStorage.loginToken,
-        },
-      })
-      .then((res) => {
-        setMyPostsData(res.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    return response;
-  };
-  const fetchMyCommentsData = () => {
-    const response = axios
-      .get(`${BASE_URL}/comments/my-comments`, {
-        withCredentials: true,
-        headers: {
-          "X-Auth-Token": localStorage.loginToken,
-        },
-      })
-      .then((res) => {
-        setMyCommentsData(res.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    return response;
-  };
+
   useEffect(() => {
     fetchProfileData();
-    fetchMyCommentsData();
-    fetchMyPostsData();
   }, []);
 
   return (
@@ -88,7 +53,7 @@ function ProfileBoard() {
         animals={profileData.animals}
       ></UserProfile>
       <PostWrapper>
-        <ProfileTab userPosts={myPosts} userComments={myComments} />
+        <ProfileTab />
       </PostWrapper>
     </Wrapper>
   );

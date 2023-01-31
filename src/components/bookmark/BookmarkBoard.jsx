@@ -33,8 +33,8 @@ function BookmarkBoard() {
   }, []);
   return (
     <Wrapper>
-      {myBookmarks.map((it) => (
-        <BookmarkCard key={it.id} {...it} />
+      {myBookmarks.map((it, index) => (
+        <BookmarkCard key={index} {...it} />
       ))}
     </Wrapper>
   );

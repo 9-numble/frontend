@@ -1,10 +1,16 @@
 import React, { useState } from "react";
+import PropTypes from "prop-types";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import SubmitBtn from "../../css/icon/SubmitBtn.svg";
 import ColoredSubmitBtn from "../../css/icon/ColoredSubmitBtn.svg";
+import { callRegisterCommentApi, callRegisterSubcommentApi } from "../../api";
 
 const Wrapper = styled.div`
+  position: fixed;
+  bottom: 0px;
   height: 64px;
+  width: 100%;
   background-color: white;
   display: flex;
   flex-direction: column;
@@ -14,7 +20,7 @@ const Wrapper = styled.div`
     font-family: "Pretendard";
     font-style: normal;
     font-weight: 400;
-    font-size: 16px;
+    font-size: 12px;
     line-height: 140%;
     color: #999999;
   }
@@ -24,7 +30,6 @@ const InputBox = styled.form`
   height: 46px;
   left: 20px;
   top: 841px;
-
   background: #ffffff;
   border: 1px solid #e5e5ec;
   border-radius: 8px;
@@ -46,6 +51,9 @@ const CommentInfo = styled.div`
   height: 36px;
   display: flex;
   align-items: center;
+  width: 100%;
+  position: fixed;
+  bottom: 64px;
 `;
 const CommentInfoText = styled.div`
   font-family: "Pretendard";
@@ -59,51 +67,81 @@ const CommentInfoText = styled.div`
     color: #fa3c89;
   }
 `;
-function PostCommentBox() {
+function PostCommentBox({
+  handleCommentInput,
+  isSubcomment,
+  handleSubcommentSubmit,
+  commentInfo_Writer,
+  commentInfo_Id,
+}) {
+  const { postId } = useParams();
   const [input, setInput] = useState();
   const [isValid, setIsValid] = useState(false);
-  const [showInfo, setShowInfo] = useState(false);
   const handleInput = (e) => {
     setInput(e.target.value);
   };
-  const handleClick = () => {
-    setShowInfo(true);
+
+  const registerComment = async () => {
+    const response = await callRegisterCommentApi({
+      boardId: postId,
+      content: input,
+    });
+    return response;
   };
-  const handleSubmit = (e) => {
+
+  const registerSubcomment = async () => {
+    const response = await callRegisterSubcommentApi({
+      boardId: postId,
+      commentId: commentInfo_Id,
+      content: input,
+    });
+    return response;
+  };
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(input);
+    if (!isSubcomment) {
+      await registerComment();
+    } else {
+      await registerSubcomment();
+      handleSubcommentSubmit();
+    }
+
+    handleCommentInput();
     setInput("");
   };
 
   return (
-    <>
-      {showInfo ? (
+    <Wrapper>
+      {isSubcomment ? (
         <CommentInfo>
           <CommentInfoText>
-            <span>챌이2</span>님에게 답글 남기는 중
+            <span>{commentInfo_Writer}</span>님에게 답글 남기는 중
           </CommentInfoText>
         </CommentInfo>
       ) : null}
-
-      <Wrapper>
-        <InputBox onSubmit={handleSubmit}>
-          <input
-            value={input || ""}
-            type="text"
-            placeholder="답글을 입력하세요."
-            onChange={handleInput}
-            onKeyUp={(e) => {
-              e.target.value.length > 0 ? setIsValid(true) : setIsValid(false);
-            }}
-            onClick={handleClick}
-          />
-          <button type="submit" disabled={isValid ? false : true}>
-            <img src={isValid ? ColoredSubmitBtn : SubmitBtn} alt="img" />
-          </button>
-        </InputBox>
-      </Wrapper>
-    </>
+      <InputBox onSubmit={handleSubmit}>
+        <input
+          value={input || ""}
+          type="text"
+          placeholder="댓글을 입력하세요."
+          onChange={handleInput}
+          onKeyUp={(e) => {
+            e.target.value.length > 0 ? setIsValid(true) : setIsValid(false);
+          }}
+        />
+        <button type="submit" disabled={isValid ? false : true}>
+          <img src={isValid ? ColoredSubmitBtn : SubmitBtn} alt="img" />
+        </button>
+      </InputBox>
+    </Wrapper>
   );
 }
+PostCommentBox.propTypes = {
+  isSubcomment: PropTypes.bool,
+  handleSubcommentSubmit: PropTypes.func,
+  handleCommentInput: PropTypes.func,
+  commentInfo_Id: PropTypes.number,
+  commentInfo_Writer: PropTypes.string,
+};
 
 export default PostCommentBox;

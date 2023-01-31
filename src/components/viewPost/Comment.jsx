@@ -15,36 +15,55 @@ const CommentText = styled.div`
   font-size: 14px;
   line-height: 140%;
   margin-left: 56px;
+  margin-bottom: 2px;
   color: #000000;
 `;
 
-function Comment({ author, village, content, createdDate, replyComments }) {
+function Comment({
+  commentId,
+  author,
+  address,
+  content,
+  createdDate,
+  handleSubcomment,
+  children,
+}) {
   return (
     <>
       <MainComment>
         <UserInfoHeaderSmall
           author={author}
-          village={village}
+          village={address}
           time={createdDate}
         />
         <CommentText>{content}</CommentText>
-        <MoreCommentBtn />
+        <MoreCommentBtn
+          author={author}
+          commentId={commentId}
+          handleSubcomment={handleSubcomment}
+        />
       </MainComment>
       <>
-        {replyComments.map((it) => (
-          <SubComment key={it.commentId} {...it} />
-        ))}
+        {children ? (
+          <>
+            {children.map((it) => (
+              <SubComment key={it.commentId} {...it} />
+            ))}
+          </>
+        ) : null}
       </>
     </>
   );
 }
 Comment.propTypes = {
+  boardId: PropTypes.number,
+  handleSubcomment: PropTypes.func,
+  commentId: PropTypes.number,
   author: PropTypes.node,
-  village: PropTypes.node,
+  address: PropTypes.node,
   content: PropTypes.node,
   createdDate: PropTypes.node,
-  commentId: PropTypes.node,
   parentId: PropTypes.node,
-  replyComments: PropTypes.array,
+  children: PropTypes.array,
 };
 export default Comment;

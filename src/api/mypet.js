@@ -2,7 +2,13 @@ import axios from "axios";
 import { BASE_URL } from "../constants";
 export const callRegisterPetApi = async (payload) => {
   try {
-    const response = await axios.post(`${BASE_URL}/users/animals`, payload);
+    const response = await axios.post(`${BASE_URL}/users/animals`, payload, {
+      withCredentials: true,
+      headers: {
+        "X-Auth-Token": localStorage.loginToken,
+        "Content-Type": `application/json`,
+      },
+    });
 
     if (response.status !== 200) throw new Error("Request faild");
     return response;

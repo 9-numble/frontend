@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import { Tags } from "../common";
 import OnlyTextContent from "./OnlyTextContent";
 import TextContent from "./TextContent";
+import { useImagePath } from "../../hooks";
 
 const Wrapper = styled.div`
   box-sizing: border-box;
@@ -28,26 +29,35 @@ const Img = styled.img`
   margin-left: 15px;
 `;
 
-function BookmarkCard({ categoryTag, animalTag, content }) {
-  if (content.image === null && content.text !== null) {
+function BookmarkCard({ categoryType, boardAnimalTypes, content, imageIds }) {
+  const { getImageUrl } = useImagePath();
+  const [mainImage, setMainImage] = useState("");
+  const getMainImage = async () => {
+    const imageData = await getImageUrl(imageIds[0]);
+    return imageData;
+  };
+  getMainImage().then((res) => {
+    setMainImage(res);
+  });
+  if (imageIds === null && content !== null) {
     return (
       <Wrapper>
         <Textside>
-          <Tags categoryTag={categoryTag} animalTag={animalTag} />
+          <Tags categoryTag={categoryType} animalTag={boardAnimalTypes} />
           <OnlyTextContent text={content.text} />
         </Textside>
       </Wrapper>
     );
   }
-  if (content.image !== null && content.text !== null) {
+  if (imageIds !== null && content !== null) {
     return (
       <Wrapper>
         <Textside>
-          <Tags categoryTag={categoryTag} animalTag={animalTag} />
-          <TextContent text={content.text} />
+          <Tags categoryTag={categoryType} animalTag={boardAnimalTypes} />
+          <TextContent text={content} />
         </Textside>
         <Imgside>
-          <Img src={content.image[0].src} alt="img"></Img>
+          <Img src={mainImage} alt="img"></Img>
         </Imgside>
       </Wrapper>
     );
@@ -57,7 +67,8 @@ function BookmarkCard({ categoryTag, animalTag, content }) {
 export default BookmarkCard;
 
 BookmarkCard.propTypes = {
-  categoryTag: PropTypes.node,
-  animalTag: PropTypes.array,
-  content: PropTypes.object,
+  categoryType: PropTypes.string,
+  boardAnimalTypes: PropTypes.array,
+  content: PropTypes.string,
+  imageIds: PropTypes.array,
 };

@@ -49,8 +49,8 @@ function Tags({ categoryTag, animalTag }) {
   return (
     <CardHeaderTags>
       <CategoryTag>{categoryTag}</CategoryTag>
-      {animalTag.map((it) => (
-        <AnimalTag key={it.id}>{it.tagName}</AnimalTag>
+      {animalTag.map((it, index) => (
+        <AnimalTag key={index}>{it}</AnimalTag>
       ))}
     </CardHeaderTags>
   );

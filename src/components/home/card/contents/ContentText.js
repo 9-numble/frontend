@@ -49,6 +49,6 @@ function ContentText({ content_text, type }) {
 export default ContentText;
 
 ContentText.propTypes = {
-  content_text: PropTypes.node,
-  type: PropTypes.node,
+  content_text: PropTypes.string,
+  type: PropTypes.string,
 };

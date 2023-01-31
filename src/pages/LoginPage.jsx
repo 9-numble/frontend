@@ -12,6 +12,7 @@ import { authenticated } from "../store";
 
 function LoginPage() {
   const [isAuthenticated, setIsAuthenticated] = useRecoilState(authenticated);
+  console.log(isAuthenticated);
   if (isAuthenticated) {
     return <Navigate to={"../"} />;
   }

@@ -4,12 +4,15 @@ import { callSearchTownByIpApi, callSearchTownByQueryApi } from "../api";
 const useSearchTown = () => {
   const [subTitle, setSubTitle] = useState("근처동네");
   const [searchResults, setSearchResults] = useState({
+    addressName: "",
     regionDepth1: "",
     regionDepth2: "",
+    regionDepth3: "",
   });
 
   const searchTownByIp = async () => {
     const response = await callSearchTownByIpApi();
+    console.log(response);
     if (response.status !== 500) {
       setSearchResults(response.data);
       setSubTitle("근처동네");

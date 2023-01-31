@@ -25,10 +25,9 @@ function PetSelectForm() {
   };
 
   const onClickRegisterPetButton = async () => {
-    const response = await callRegisterPetApi(selectedPet);
-    if (response.status === 200) {
-      navigate(-1);
-    }
+    const response = await callRegisterPetApi({ animalTypes: selectedPet });
+    navigate("/profile");
+    return response;
   };
 
   return (

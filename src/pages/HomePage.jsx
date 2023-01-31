@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import { authenticated } from "../store";
 import axios from "axios";
 import { BASE_URL } from "../constants";
 import {
@@ -13,7 +14,7 @@ import {
   PetRegisterModalContent,
 } from "../components";
 import { userSelector } from "../store";
-import { useEffect } from "react";
+import { useEffect, useLayoutEffect } from "react";
 
 const StyledHeader = styled.div`
   position: fixed;
@@ -25,6 +26,7 @@ const StyledHeader = styled.div`
 `;
 
 export function HomePage() {
+  const setIsAuthenticated = useSetRecoilState(authenticated);
   const [user, setUser] = useRecoilState(userSelector);
   const [isOpen, setIsOpen] = useState(false);
   const [cardData, setCardData] = useState([]);
@@ -72,13 +74,15 @@ export function HomePage() {
   };
 
   const fetchCardData = async () => {
-    const APICategoryParams = encodeURIComponent(categoryParams);
-    const APIAnimalParams = encodeURIComponent(animalParams);
+    const town2 = "전체";
     const response = await axios.get(
-      `${BASE_URL}/board/list?animalTypes=${APIAnimalParams}categoryType=${APICategoryParams}`
+      `${BASE_URL}/board/list?address=${town2}&category=${categoryParams}&animal=${animalParams}`,
+      {
+        headers: {
+          "X-Auth-Token": localStorage.loginToken,
+        },
+      }
     );
-
-    console.log(categoryParams);
     setCardData(response.data);
   };
 
@@ -86,20 +90,25 @@ export function HomePage() {
     setIsOpen(user.first);
   }, [user]);
 
-  useEffect(() => {
-    setUser({ ...user, first: false });
+  useLayoutEffect(() => {
+    if (localStorage.loginToken) {
+      setIsAuthenticated(true);
+      setUser({ ...user, first: false });
+    }
   }, []);
 
   useEffect(() => {
     fetchCardData();
-  }, [categoryParams]);
+  }, [categoryParams, animalParams]);
+
+  console.log(cardData);
   return (
     <>
       <StyledHeader>
         <FeedHeader />
         <SearchBar onCategory={getCategory} onAnimal={getAnimal} />
       </StyledHeader>
-      <Board cardData={cardData} />
+      <Board cardData={cardData} type="main" />
       <WritePostBtn />
       <Nav />
       <BottomModal

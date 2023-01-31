@@ -38,7 +38,6 @@ const NavButton = styled(BottomNavigationAction)`
     margin: 0px;
     min-width: 0px;
   }
-
   &&.Mui-selected {
     color: ${({ theme: { colors } }) => colors.main};
   }
@@ -49,7 +48,8 @@ const Icon = styled.img`
 `;
 
 function Nav() {
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = React.useState("피드");
+  console.log(value);
 
   return (
     <Wrapper sx={{ width: 500 }}>
@@ -61,22 +61,29 @@ function Nav() {
         }}
       >
         <NavButton
+          value="피드"
           label="피드"
           component={Link}
           to={"/"}
-          icon={<Icon src={value === 0 ? coloredFeed : FeedIcon} />}
+          icon={<Icon src={value === "피드" ? coloredFeed : FeedIcon} />}
         />
         <NavButton
+          value="북마크"
           label="북마크"
           component={Link}
           to={"/bookmark"}
-          icon={<Icon src={value === 1 ? coloredBookmark : BookmarkIcon} />}
+          icon={
+            <Icon src={value === "북마크" ? coloredBookmark : BookmarkIcon} />
+          }
         />
         <NavButton
+          value="프로필"
           label="프로필"
           component={Link}
           to={"/profile"}
-          icon={<Icon src={value === 2 ? coloredProfile : ProfileIcon} />}
+          icon={
+            <Icon src={value === "프로필" ? coloredProfile : ProfileIcon} />
+          }
         />
       </NavButtonBox>
     </Wrapper>
