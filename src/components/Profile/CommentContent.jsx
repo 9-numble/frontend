@@ -3,8 +3,8 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 
 const Wrapper = styled.div`
-  height: 40px;
   width: 320px;
+  margin-bottom: 4px;
 `;
 
 function Comment({ commentContent }) {

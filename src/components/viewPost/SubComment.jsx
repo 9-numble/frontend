@@ -16,12 +16,12 @@ const CommentText = styled.div`
   margin-left: 56px;
   color: #000000;
 `;
-function SubComment({ author, village, content, createdDate }) {
+function SubComment({ author, address, content, createdDate }) {
   return (
     <Wrapper>
       <UserInfoHeaderSmall
         author={author}
-        village={village}
+        village={address}
         time={createdDate}
       />
       <CommentText>{content}</CommentText>
@@ -30,7 +30,7 @@ function SubComment({ author, village, content, createdDate }) {
 }
 SubComment.propTypes = {
   author: PropTypes.node,
-  village: PropTypes.node,
+  address: PropTypes.node,
   content: PropTypes.node,
   createdDate: PropTypes.node,
 };

@@ -42,12 +42,20 @@ export const callSearchTownByIpApi = () => {
 };
 
 export const callDeleteMyTownApi = async () => {
-  try {
-    const response = await axios.delete(`${BASE_URL}/delete-mytown`);
-    return response.data;
-  } catch (error) {
-    console.log(error);
-  }
+  const response = axios
+    .delete(`${BASE_URL}/users/address`, {
+      withCredentials: true,
+      headers: {
+        "X-Auth-Token": localStorage.loginToken,
+      },
+    })
+    .then((res) => {
+      return res;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  return response;
 };
 
 export const callRegisterMyTownApi = (payload) => {
@@ -59,7 +67,6 @@ export const callRegisterMyTownApi = (payload) => {
       },
     })
     .then((res) => {
-      console.log(res);
       return res;
     })
     .catch((error) => {

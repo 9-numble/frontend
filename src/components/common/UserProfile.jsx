@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
+import LogoutBtn from "../Profile/LogoutBtn";
 
 const Wrapper = styled.div`
   height: 215px;
@@ -11,6 +12,7 @@ const UserInfoBox = styled.div`
   width: 100%;
   padding: 24px 20px;
   display: flex;
+  align-items: center;
 `;
 const UserPicture = styled.img`
   width: 80px;
@@ -77,6 +79,7 @@ const UserTagTitle = styled.div`
 const UserTags = styled.div`
   display: flex;
 `;
+
 function UserProfile({ nickname, regionDepth2, animals }) {
   return (
     <Wrapper>
@@ -86,6 +89,7 @@ function UserProfile({ nickname, regionDepth2, animals }) {
           <UserName>{nickname}</UserName>
           <UserVillage>{regionDepth2}</UserVillage>
         </UserInfo>
+        <LogoutBtn />
       </UserInfoBox>
       <UserTagBox>
         <UserTagTitle>반려동물</UserTagTitle>

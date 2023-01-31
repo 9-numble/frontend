@@ -4,7 +4,7 @@ import styled, { css } from "styled-components";
 import { useSetRecoilState } from "recoil";
 import { user } from "../../../store";
 import { callRegisterMyTownApi } from "../../../api";
-
+import { useNavigate } from "react-router-dom";
 const AddressItem = styled.div`
   ${({ theme: { fontSizes, colors } }) =>
     css`
@@ -21,6 +21,7 @@ const AddressItem = styled.div`
 function AddressList({ searchResults, setIsSearchMode, isSearchMode }) {
   const address = searchResults;
   const setUser = useSetRecoilState(user);
+  const navigate = useNavigate();
 
   const onClickRegisterTown = async ({ target }) => {
     const response = await callRegisterMyTownApi({
@@ -29,6 +30,7 @@ function AddressList({ searchResults, setIsSearchMode, isSearchMode }) {
       regionDepth2: address.regionDepth2,
     });
     setIsSearchMode(false);
+    navigate("/");
     return response;
   };
   if (isSearchMode === false) {

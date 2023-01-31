@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
@@ -7,7 +7,8 @@ import TabPanel from "@mui/lab/TabPanel";
 import styled from "@emotion/styled";
 import Card from "../home/card/Card";
 import ProfileCommentCard from "./ProfileCommentCard";
-import PropTypes from "prop-types";
+import axios from "axios";
+import { BASE_URL } from "../../constants";
 
 const BigBox = styled(Box)`
   padding: 0px;
@@ -37,17 +38,56 @@ const StyledTab = styled(Tab)`
 const Board = styled.div`
   box-sizing: border-box;
   width: 100%;
-  background: #f0f0f6;
+  background-color: white;
 `;
 const StyledTabPanel = styled(TabPanel)`
   padding: 0px;
 `;
-export default function ProfileTab({ userPosts, userComments }) {
+export default function ProfileTab() {
   const [value, setValue] = React.useState("1");
+  const [myPosts, setMyPostsData] = useState([]);
+  const [myComments, setMyCommentsData] = useState([]);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+  const fetchMyPostsData = () => {
+    const response = axios
+      .get(`${BASE_URL}/board/user`, {
+        withCredentials: true,
+        headers: {
+          "X-Auth-Token": localStorage.loginToken,
+        },
+      })
+      .then((res) => {
+        setMyPostsData(res.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    return response;
+  };
+  const fetchMyCommentsData = () => {
+    const response = axios
+      .get(`${BASE_URL}/comments/my-comments`, {
+        withCredentials: true,
+        headers: {
+          "X-Auth-Token": localStorage.loginToken,
+        },
+      })
+      .then((res) => {
+        console.log("fetchMyCommentsData");
+        setMyCommentsData(res.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    return response;
+  };
+  useEffect(() => {
+    fetchMyCommentsData();
+    fetchMyPostsData();
+  }, []);
 
   return (
     <BigBox sx={{ width: "100%", typography: "body1" }}>
@@ -66,21 +106,21 @@ export default function ProfileTab({ userPosts, userComments }) {
         </StyledBox>
         <StyledTabPanel value="1">
           <Board>
-            {userPosts.map((it) => (
+            {myPosts.map((it) => (
               <Card key={it.id} {...it} />
             ))}
           </Board>
         </StyledTabPanel>
         <StyledTabPanel value="2">
-          {userComments.map((it) => (
-            <ProfileCommentCard key={it.commentId} {...it} />
-          ))}
+          <Board>
+            {myComments
+              ? myComments.map((it) => (
+                  <ProfileCommentCard key={it.commentId} {...it} />
+                ))
+              : null}
+          </Board>
         </StyledTabPanel>
       </TabContext>
     </BigBox>
   );
 }
-ProfileTab.propTypes = {
-  userPosts: PropTypes.array,
-  userComments: PropTypes.array,
-};

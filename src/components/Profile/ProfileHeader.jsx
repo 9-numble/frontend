@@ -1,7 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import setting from "../../css/icon/Setting.svg";
-
 const Wrapper = styled.div`
   position: relative;
   display: flex;
@@ -25,7 +23,6 @@ function ProfileHeader() {
   return (
     <Wrapper>
       <LeftText>내 정보</LeftText>
-      <img src={setting} alt="img" />
     </Wrapper>
   );
 }

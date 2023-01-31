@@ -29,6 +29,7 @@ function JoinButton({ isDisabled, failToJoin }) {
         }
       })
       .catch((error) => {
+        console.log(error);
         const message = error;
         failToJoin(message);
       });

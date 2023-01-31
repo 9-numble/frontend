@@ -38,7 +38,6 @@ function BookmarkCard({ categoryType, boardAnimalTypes, content, imageIds }) {
   };
   getMainImage().then((res) => {
     setMainImage(res);
-    console.log(mainImage);
   });
   if (imageIds === null && content !== null) {
     return (

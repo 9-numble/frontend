@@ -4,6 +4,7 @@ import { useRecoilState } from "recoil";
 import { callDeleteMyTownApi } from "../../api";
 import { user } from "../../store";
 import { deleteButtonProps } from "../../constants";
+import { useNavigate } from "react-router-dom";
 
 const deleteButtonStyle = () => {
   return {
@@ -13,11 +14,13 @@ const deleteButtonStyle = () => {
 };
 
 function DeleteButton() {
+  const navigate = useNavigate();
   const [{ userId }, setUser] = useRecoilState(user);
 
   const onClick = () => {
     const data = callDeleteMyTownApi(userId);
     setUser(data);
+    navigate("/");
   };
 
   return (

@@ -43,7 +43,6 @@ const useLocalLogin = () => {
             setIsAuthenticated(true);
           }
         });
-      console.log(response);
       return response;
     }
   };

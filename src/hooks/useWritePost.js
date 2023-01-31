@@ -4,9 +4,11 @@ import { postTextAtom, postTagsAtom } from "../store";
 import { callRegisterPostApi } from "../api";
 import { postImageFilesAtom } from "../store";
 import { callRegisterImageApi } from "../api/writePost";
+import { useNavigate } from "react-router-dom";
 import { user } from "../store";
 
 const useWritePost = () => {
+  const navigate = useNavigate();
   const [canSubmitPost, setCanSubmitPost] = useState(false);
   const postTags = useRecoilValue(postTagsAtom);
   const postText = useRecoilValue(postTextAtom);
@@ -55,14 +57,12 @@ const useWritePost = () => {
     async function makeFormData() {
       imageFiles.forEach((image) => {
         imgFormData.append("images", image.file);
-        console.log(image);
       });
     }
 
     makeFormData()
       .then(async () => {
         const registerImages = await callRegisterImageApi(imgFormData);
-        console.log(registerImages);
         return registerImages;
       })
       .then(async (req) => {
@@ -78,6 +78,9 @@ const useWritePost = () => {
 
         const registerPost = await callRegisterPostApi(postData);
         return registerPost;
+      })
+      .then(() => {
+        navigate("/");
       });
     return;
   };

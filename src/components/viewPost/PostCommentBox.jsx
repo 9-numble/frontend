@@ -4,11 +4,11 @@ import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import SubmitBtn from "../../css/icon/SubmitBtn.svg";
 import ColoredSubmitBtn from "../../css/icon/ColoredSubmitBtn.svg";
-import { callRegisterCommentApi } from "../../api";
+import { callRegisterCommentApi, callRegisterSubcommentApi } from "../../api";
 
 const Wrapper = styled.div`
   position: fixed;
-  bottom: 9px;
+  bottom: 0px;
   height: 64px;
   width: 100%;
   background-color: white;
@@ -20,7 +20,7 @@ const Wrapper = styled.div`
     font-family: "Pretendard";
     font-style: normal;
     font-weight: 400;
-    font-size: 16px;
+    font-size: 12px;
     line-height: 140%;
     color: #999999;
   }
@@ -30,7 +30,6 @@ const InputBox = styled.form`
   height: 46px;
   left: 20px;
   top: 841px;
-
   background: #ffffff;
   border: 1px solid #e5e5ec;
   border-radius: 8px;
@@ -47,16 +46,16 @@ const InputBox = styled.form`
     justify-content: center;
   }
 `;
-{
-  /*}
 const CommentInfo = styled.div`
   background: #f1f1f5;
   height: 36px;
   display: flex;
   align-items: center;
+  width: 100%;
+  position: fixed;
+  bottom: 64px;
 `;
-{
-  /*const CommentInfoText = styled.div`
+const CommentInfoText = styled.div`
   font-family: "Pretendard";
   font-style: normal;
   font-weight: 400;
@@ -67,21 +66,21 @@ const CommentInfo = styled.div`
   span {
     color: #fa3c89;
   }
-`;*/
-}
-function PostCommentBox(props) {
+`;
+function PostCommentBox({
+  handleCommentInput,
+  isSubcomment,
+  handleSubcommentSubmit,
+  commentInfo_Writer,
+  commentInfo_Id,
+}) {
   const { postId } = useParams();
   const [input, setInput] = useState();
   const [isValid, setIsValid] = useState(false);
-  //const [showInfo, setShowInfo] = useState(false);
   const handleInput = (e) => {
     setInput(e.target.value);
   };
-  {
-    /*const handleClick = () => {
-    setShowInfo(true);
-  };*/
-  }
+
   const registerComment = async () => {
     const response = await callRegisterCommentApi({
       boardId: postId,
@@ -89,15 +88,37 @@ function PostCommentBox(props) {
     });
     return response;
   };
+
+  const registerSubcomment = async () => {
+    const response = await callRegisterSubcommentApi({
+      boardId: postId,
+      commentId: commentInfo_Id,
+      content: input,
+    });
+    return response;
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await registerComment();
-    props.handleCommentInput();
+    if (!isSubcomment) {
+      await registerComment();
+    } else {
+      await registerSubcomment();
+      handleSubcommentSubmit();
+    }
+
+    handleCommentInput();
     setInput("");
   };
 
   return (
     <Wrapper>
+      {isSubcomment ? (
+        <CommentInfo>
+          <CommentInfoText>
+            <span>{commentInfo_Writer}</span>님에게 답글 남기는 중
+          </CommentInfoText>
+        </CommentInfo>
+      ) : null}
       <InputBox onSubmit={handleSubmit}>
         <input
           value={input || ""}
@@ -116,7 +137,11 @@ function PostCommentBox(props) {
   );
 }
 PostCommentBox.propTypes = {
+  isSubcomment: PropTypes.bool,
+  handleSubcommentSubmit: PropTypes.func,
   handleCommentInput: PropTypes.func,
+  commentInfo_Id: PropTypes.number,
+  commentInfo_Writer: PropTypes.string,
 };
 
 export default PostCommentBox;

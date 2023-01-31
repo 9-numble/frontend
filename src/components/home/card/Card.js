@@ -32,7 +32,6 @@ function Card({
   boardAddress,
   createdDate,
 }) {
-  console.log(boardAnimalTypes);
   return (
     <Wrapper>
       <UserInfoHeader

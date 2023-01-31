@@ -3,9 +3,7 @@ import PropTypes from "prop-types";
 import { UserInfoHeaderSmall } from "../../components";
 import styled from "styled-components";
 import MoreCommentBtn from "./MoreCommentBtn";
-{
-  /*import SubComment from "./SubComment";*/
-}
+import SubComment from "./SubComment";
 const MainComment = styled.div`
   height: 93px;
   padding-top: 20px;
@@ -21,7 +19,15 @@ const CommentText = styled.div`
   color: #000000;
 `;
 
-function Comment({ author, address, content, createdDate }) {
+function Comment({
+  commentId,
+  author,
+  address,
+  content,
+  createdDate,
+  handleSubcomment,
+  children,
+}) {
   return (
     <>
       <MainComment>
@@ -31,24 +37,33 @@ function Comment({ author, address, content, createdDate }) {
           time={createdDate}
         />
         <CommentText>{content}</CommentText>
-        <MoreCommentBtn />
+        <MoreCommentBtn
+          author={author}
+          commentId={commentId}
+          handleSubcomment={handleSubcomment}
+        />
       </MainComment>
-      {/*
       <>
-        {replyComments.map((it) => (
-          <SubComment key={it.commentId} {...it} />
-        ))}
+        {children ? (
+          <>
+            {children.map((it) => (
+              <SubComment key={it.commentId} {...it} />
+            ))}
+          </>
+        ) : null}
       </>
-        */}
     </>
   );
 }
 Comment.propTypes = {
+  boardId: PropTypes.number,
+  handleSubcomment: PropTypes.func,
+  commentId: PropTypes.number,
   author: PropTypes.node,
   address: PropTypes.node,
   content: PropTypes.node,
   createdDate: PropTypes.node,
-  commentId: PropTypes.node,
   parentId: PropTypes.node,
+  children: PropTypes.array,
 };
 export default Comment;

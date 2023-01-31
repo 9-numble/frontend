@@ -14,6 +14,9 @@ const CommentsWrapper = styled.div`
 function CommentBox() {
   const { postId } = useParams();
   const [comments, setComments] = useState([]);
+  const [isSubcomment, setIsSubcomment] = useState(false);
+  const [commentInfo_Id, setCommentInfo_Id] = useState();
+  const [commentInfo_Writer, setCommentInfo_Writer] = useState("");
   //새로운 Comment를 작성하였을 때 실시간으로 CommentBox에 반영되되, useEffect가 무한루프에 빠지게 하지 않기 위해
   //"myNewCommentsNum"이라는 임의의 state를 새로 설정하였습니다.
   const [myNewCommentsNum, setMyNewCommentsNum] = useState(0);
@@ -28,6 +31,16 @@ function CommentBox() {
     console.log(myNewCommentsNum);
   };
 
+  const handleSubcomment = (commentId, author) => {
+    setIsSubcomment(true);
+    setCommentInfo_Id(commentId);
+    setCommentInfo_Writer(author);
+  };
+
+  const handleSubcommentSubmit = () => {
+    setIsSubcomment(false);
+  };
+
   useEffect(() => {
     fetchCommentsData().then((res) => {
       setComments(res);
@@ -36,17 +49,32 @@ function CommentBox() {
 
   if (JSON.stringify(comments) === "[]") {
     console.log("blank");
-    return <BlankComment />;
+    return (
+      <Wrapper>
+        <BlankComment />
+        <PostCommentBox handleCommentInput={handleCommentInput} />
+      </Wrapper>
+    );
   } else {
-    console.log(comments);
     return (
       <Wrapper>
         <CommentsWrapper>
           {comments.map((it) => (
-            <Comment key={it.commentId} {...it} />
+            <Comment
+              key={it.commentId}
+              {...it}
+              handleSubcomment={handleSubcomment}
+            />
           ))}
         </CommentsWrapper>
-        <PostCommentBox handleCommentInput={handleCommentInput} />
+        <PostCommentBox
+          boardId={postId}
+          handleCommentInput={handleCommentInput}
+          isSubcomment={isSubcomment}
+          handleSubcommentSubmit={handleSubcommentSubmit}
+          commentInfo_Id={commentInfo_Id}
+          commentInfo_Writer={commentInfo_Writer}
+        />
       </Wrapper>
     );
   }

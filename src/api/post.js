@@ -45,7 +45,7 @@ export const callLikeUrl = async (boardId) => {
 
 export const callDeleteLikeUrl = async (boardId) => {
   const response = await axios
-    .delete(`${BASE_URL}/like/${boardId}`, null, {
+    .delete(`${BASE_URL}/like/${boardId}`, {
       withCredentials: true,
       headers: {
         "X-Auth-Token": localStorage.loginToken,
@@ -73,7 +73,7 @@ export const callBookmarkUrl = async (boardId) => {
 
 export const callDeleteBookmarkUrl = async (boardId) => {
   const response = await axios
-    .delete(`${BASE_URL}/bookmark/${boardId}`, null, {
+    .delete(`${BASE_URL}/bookmark/${boardId}`, {
       withCredentials: true,
       headers: {
         "X-Auth-Token": localStorage.loginToken,

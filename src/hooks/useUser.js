@@ -13,6 +13,7 @@ const useUser = () => {
       setUser(response);
     }
     getUserApi();
+    console.log(isAuthenticated);
   }, [isAuthenticated]);
 
   return isAuthenticated;
